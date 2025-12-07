@@ -1,0 +1,1732 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sriram Scaffold & Services - Premium Scaffolding Solutions Singapore</title>
+    <meta name="description"
+        content="Singapore's leading BCA & MOM accredited scaffolding contractor. 15+ years experience, 500+ projects, zero-accident record.">
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
+
+    <!-- Three.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+
+    <!-- Swiper CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <style>
+        :root {
+            --primary: #22c55e;
+            --primary-dark: #1a5c38;
+            --primary-light: #86efac;
+            --accent: #f59e0b;
+            --accent-light: #fbbf24;
+
+            /* Dark theme (default) */
+            --dark: #0a0a0a;
+            --dark-lighter: #141414;
+            --dark-card: #1a1a1a;
+            --text: #e5e5e5;
+            --text-muted: #a3a3a3;
+            --glass: rgba(255, 255, 255, 0.05);
+            --glass-border: rgba(255, 255, 255, 0.1);
+            --shadow: rgba(0, 0, 0, 0.3);
+        }
+
+        /* Light theme */
+        [data-theme="light"] {
+            --dark: #ffffff;
+            --dark-lighter: #f8fafc;
+            --dark-card: #ffffff;
+            --text: #1e293b;
+            --text-muted: #64748b;
+            --glass: rgba(0, 0, 0, 0.03);
+            --glass-border: rgba(0, 0, 0, 0.08);
+            --shadow: rgba(0, 0, 0, 0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--dark);
+            color: var(--text);
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        .font-display {
+            font-family: 'Space Grotesk', sans-serif;
+        }
+
+        /* Glassmorphism */
+        .glass {
+            background: var(--glass);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+        }
+
+        /* Header */
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            padding: 1rem 2rem;
+            transition: all 0.3s ease;
+        }
+
+        header.scrolled {
+            background: rgba(10, 10, 10, 0.9);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--glass-border);
+        }
+
+        nav {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: white;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .logo span {
+            color: var(--primary);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.95rem;
+            transition: all 0.3s;
+            position: relative;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--primary);
+            transition: width 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: white;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .nav-cta {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: white !important;
+            padding: 0.75rem 1.5rem;
+            border-radius: 50px;
+            font-weight: 600;
+        }
+
+        .nav-cta:hover {
+            transform: scale(1.05);
+        }
+
+        .nav-cta::after {
+            display: none !important;
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        /* Theme Toggle */
+        .theme-toggle {
+            position: relative;
+            width: 60px;
+            height: 30px;
+            background: var(--glass);
+            border: 1px solid var(--glass-border);
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            padding: 3px;
+            margin-left: 1rem;
+        }
+
+        .theme-toggle:hover {
+            border-color: var(--primary);
+        }
+
+        .theme-toggle-slider {
+            position: absolute;
+            width: 24px;
+            height: 24px;
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            border-radius: 50%;
+            transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 2px 8px rgba(34, 197, 94, 0.3);
+        }
+
+        [data-theme="light"] .theme-toggle-slider {
+            transform: translateX(30px);
+            background: linear-gradient(135deg, var(--accent), var(--accent-light));
+            box-shadow: 0 2px 8px rgba(245, 158, 11, 0.3);
+        }
+
+        .theme-toggle-icon {
+            font-size: 0.75rem;
+            color: white;
+        }
+
+        .theme-toggle .sun-icon {
+            display: none;
+        }
+
+        .theme-toggle .moon-icon {
+            display: block;
+        }
+
+        [data-theme="light"] .theme-toggle .sun-icon {
+            display: block;
+        }
+
+        [data-theme="light"] .theme-toggle .moon-icon {
+            display: none;
+        }
+
+        /* Hero Section */
+        #hero {
+            height: 100vh;
+            position: relative;
+            display: flex;
+            align-items: center;
+            overflow: hidden;
+        }
+
+        #hero-canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+        }
+
+        .hero-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(10, 10, 10, 0.7), rgba(26, 92, 56, 0.3));
+            z-index: 2;
+            transition: background 0.3s ease;
+        }
+
+        [data-theme="light"] .hero-overlay {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.85), rgba(134, 239, 172, 0.4));
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 3;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: var(--glass);
+            border: 1px solid var(--glass-border);
+            padding: 0.5rem 1rem;
+            border-radius: 50px;
+            font-size: 0.875rem;
+            margin-bottom: 1.5rem;
+            animation: fadeInUp 1s ease forwards;
+        }
+
+        .hero-badge i {
+            color: var(--primary);
+        }
+
+        .hero-title {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: clamp(2.5rem, 8vw, 5rem);
+            font-weight: 700;
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+            opacity: 0;
+            animation: fadeInUp 1s 0.2s ease forwards;
+        }
+
+        .hero-title .highlight {
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-subtitle {
+            font-size: 1.25rem;
+            color: var(--text-muted);
+            max-width: 600px;
+            margin-bottom: 2rem;
+            opacity: 0;
+            animation: fadeInUp 1s 0.4s ease forwards;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            opacity: 0;
+            animation: fadeInUp 1s 0.6s ease forwards;
+        }
+
+        .btn {
+            padding: 1rem 2rem;
+            border-radius: 50px;
+            font-weight: 600;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.3s;
+            cursor: pointer;
+            border: none;
+            font-size: 1rem;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: white;
+            box-shadow: 0 10px 40px rgba(34, 197, 94, 0.3);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 50px rgba(34, 197, 94, 0.4);
+        }
+
+        .btn-outline {
+            background: transparent;
+            color: white;
+            border: 2px solid var(--glass-border);
+        }
+
+        .btn-outline:hover {
+            background: var(--glass);
+            border-color: var(--primary);
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Section Styling */
+        section {
+            padding: 100px 2rem;
+        }
+
+        .section-header {
+            text-align: center;
+            max-width: 800px;
+            margin: 0 auto 4rem;
+        }
+
+        .section-label {
+            color: var(--primary);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-size: 0.875rem;
+            margin-bottom: 1rem;
+        }
+
+        .section-title {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: clamp(2rem, 5vw, 3rem);
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        .section-subtitle {
+            color: var(--text-muted);
+            font-size: 1.1rem;
+        }
+
+        /* Clients Carousel */
+        #clients {
+            background: var(--dark-lighter);
+            padding: 60px 0;
+        }
+
+        .clients-track {
+            display: flex;
+            animation: scroll 25s linear infinite;
+        }
+
+        .clients-track:hover {
+            animation-play-state: paused;
+        }
+
+        .client-logo {
+            flex-shrink: 0;
+            width: 200px;
+            height: 80px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 2rem;
+            background: var(--glass);
+            border: 1px solid var(--glass-border);
+            border-radius: 12px;
+            font-weight: 700;
+            color: var(--text-muted);
+            transition: all 0.3s;
+        }
+
+        .client-logo:hover {
+            color: var(--primary);
+            border-color: var(--primary);
+            transform: translateY(-5px);
+        }
+
+        [data-theme="light"] .client-logo {
+            background: var(--dark-card);
+            box-shadow: 0 2px 10px var(--shadow);
+        }
+
+        @keyframes scroll {
+            0% {
+                transform: translateX(0);
+            }
+
+            100% {
+                transform: translateX(-50%);
+            }
+        }
+
+        /* Stats */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .stat-card {
+            text-align: center;
+            padding: 2rem;
+            background: var(--glass);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            transition: all 0.3s;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-10px);
+            border-color: var(--primary);
+        }
+
+        .stat-number {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 3rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+        }
+
+        [data-theme="light"] .stat-card {
+            background: var(--dark-card);
+            box-shadow: 0 4px 20px var(--shadow);
+        }
+
+        [data-theme="light"] .stat-card:hover {
+            box-shadow: 0 20px 40px rgba(34, 197, 94, 0.15);
+        }
+
+        /* Services */
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .service-card {
+            background: var(--dark-card);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            padding: 2.5rem;
+            transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .service-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+            transform: scaleX(0);
+            transition: transform 0.4s;
+        }
+
+        .service-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .service-card:hover {
+            transform: translateY(-10px);
+            border-color: var(--primary);
+            box-shadow: 0 20px 60px rgba(34, 197, 94, 0.15);
+        }
+
+        [data-theme="light"] .service-card {
+            background: var(--dark-card);
+            box-shadow: 0 4px 20px var(--shadow);
+        }
+
+        [data-theme="light"] .service-card:hover {
+            box-shadow: 0 20px 60px rgba(34, 197, 94, 0.2);
+        }
+
+        .service-icon {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: white;
+            margin-bottom: 1.5rem;
+        }
+
+        .service-card h3 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .service-card p {
+            color: var(--text-muted);
+        }
+
+        /* Projects Carousel */
+        .projects-swiper {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem 4rem;
+        }
+
+        .project-slide {
+            background: var(--dark-card);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            overflow: hidden;
+        }
+
+        .project-image {
+            height: 300px;
+            overflow: hidden;
+        }
+
+        .project-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s;
+        }
+
+        .project-slide:hover .project-image img {
+            transform: scale(1.1);
+        }
+
+        .project-content {
+            padding: 2rem;
+        }
+
+        .project-tag {
+            display: inline-block;
+            background: var(--primary);
+            color: var(--dark);
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        .project-content h3 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.5rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .project-content p {
+            color: var(--text-muted);
+            margin-bottom: 1.5rem;
+        }
+
+        .project-stats {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .project-stat span {
+            display: block;
+            color: var(--text-muted);
+            font-size: 0.8rem;
+        }
+
+        .project-stat strong {
+            color: var(--primary);
+            font-size: 1.1rem;
+        }
+
+        [data-theme="light"] .project-slide {
+            background: var(--dark-card);
+            box-shadow: 0 4px 20px var(--shadow);
+        }
+
+        [data-theme="light"] .project-slide:hover {
+            box-shadow: 0 20px 40px rgba(34, 197, 94, 0.15);
+        }
+
+        /* Certifications */
+        .certs-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .cert-card {
+            background: linear-gradient(135deg, var(--primary-dark), var(--primary));
+            border-radius: 20px;
+            padding: 2rem;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.4s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cert-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        .cert-card:hover::before {
+            left: 100%;
+        }
+
+        .cert-card:hover {
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 0 20px 60px rgba(34, 197, 94, 0.4);
+        }
+
+        [data-theme="light"] .cert-card {
+            background: linear-gradient(135deg, var(--primary), var(--primary-light));
+        }
+
+        .cert-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .cert-card h4 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.25rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .cert-card p {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+
+        /* Modal */
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(10px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 2000;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.4s;
+        }
+
+        .modal.show {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .modal-content {
+            background: var(--dark-card);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            padding: 2.5rem;
+            max-width: 500px;
+            width: 90%;
+            transform: scale(0.8);
+            transition: transform 0.4s;
+        }
+
+        .modal.show .modal-content {
+            transform: scale(1);
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: var(--glass);
+            border: none;
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 1.2rem;
+            transition: all 0.3s;
+        }
+
+        .modal-close:hover {
+            background: var(--primary);
+        }
+
+        [data-theme="light"] .modal {
+            background: rgba(0, 0, 0, 0.5);
+        }
+
+        [data-theme="light"] .modal-content {
+            background: var(--dark-card);
+            box-shadow: 0 20px 60px var(--shadow);
+        }
+
+        /* Contact */
+        #contact {
+            background: var(--dark-lighter);
+        }
+
+        .contact-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .contact-form {
+            background: var(--dark-card);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            padding: 2.5rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 1rem;
+            background: var(--dark);
+            border: 1px solid var(--glass-border);
+            border-radius: 12px;
+            color: white;
+            font-family: inherit;
+            font-size: 1rem;
+            transition: all 0.3s;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(34, 197, 94, 0.1);
+        }
+
+        .contact-info h3 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .contact-item i {
+            width: 50px;
+            height: 50px;
+            background: var(--glass);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary);
+            font-size: 1.25rem;
+        }
+
+        .contact-item h4 {
+            font-size: 1rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .contact-item p {
+            color: var(--text-muted);
+        }
+
+        [data-theme="light"] .contact-form {
+            background: var(--dark-card);
+            box-shadow: 0 4px 20px var(--shadow);
+        }
+
+        [data-theme="light"] .contact-item i {
+            background: var(--glass);
+            border: 1px solid var(--glass-border);
+        }
+
+        /* Footer */
+        footer {
+            background: var(--dark);
+            border-top: 1px solid var(--glass-border);
+            padding: 3rem 2rem;
+            text-align: center;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .footer-logo {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        .footer-logo span {
+            color: var(--primary);
+        }
+
+        .footer-text {
+            color: var(--text-muted);
+            margin-bottom: 1.5rem;
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .social-links a {
+            width: 45px;
+            height: 45px;
+            background: var(--glass);
+            border: 1px solid var(--glass-border);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-muted);
+            transition: all 0.3s;
+        }
+
+        .social-links a:hover {
+            background: var(--primary);
+            color: white;
+            transform: translateY(-3px);
+        }
+
+        .copyright {
+            color: var(--text-muted);
+            font-size: 0.875rem;
+        }
+
+        [data-theme="light"] footer {
+            background: var(--dark-lighter);
+            border-top: 1px solid var(--glass-border);
+        }
+
+        /* Mobile */
+        .mobile-nav {
+            display: block;
+            position: fixed;
+            top: 0;
+            right: -100%;
+            width: 80%;
+            max-width: 400px;
+            height: 100vh;
+            background: var(--dark-card);
+            z-index: 1001;
+            padding: 2rem;
+            transition: right 0.4s ease;
+        }
+
+        .mobile-nav.show {
+            right: 0;
+        }
+
+        .mobile-nav-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 3rem;
+        }
+
+        .mobile-nav-links {
+            list-style: none;
+        }
+
+        .mobile-nav-links li {
+            margin-bottom: 1.5rem;
+        }
+
+        .mobile-nav-links a {
+            color: white;
+            text-decoration: none;
+            font-size: 1.25rem;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .mobile-nav-links a:hover {
+            color: var(--primary);
+        }
+
+        .mobile-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+        }
+
+        .mobile-overlay.show {
+            display: block;
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .contact-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .mobile-menu-btn {
+                display: block;
+            }
+
+            .theme-toggle {
+                margin-left: 0;
+            }
+
+            .hero-title {
+                font-size: 2.5rem;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr 1fr;
+                gap: 1rem;
+            }
+
+            .stat-number {
+                font-size: 2rem;
+            }
+
+            section {
+                padding: 60px 1rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .hero-buttons {
+                flex-direction: column;
+            }
+
+            .btn {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Header -->
+    <header id="header">
+        <nav>
+            <a href="#" class="logo">SRIRAM <span>SCAFFOLD</span></a>
+            <ul class="nav-links">
+                <li><a href="#about">About</a></li>
+                <li><a href="#services">Services</a></li>
+                <li><a href="#projects">Projects</a></li>
+                <li><a href="#certifications">Certifications</a></li>
+                <li><a href="#contact" class="nav-cta">Get Quote</a></li>
+            </ul>
+            <div style="display: flex; align-items: center; gap: 1rem;">
+                <button class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle theme">
+                    <div class="theme-toggle-slider">
+                        <i class="fas fa-moon theme-toggle-icon moon-icon"></i>
+                        <i class="fas fa-sun theme-toggle-icon sun-icon"></i>
+                    </div>
+                </button>
+                <button class="mobile-menu-btn" onclick="toggleMobileMenu()">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Mobile Nav -->
+    <div class="mobile-overlay" id="mobileOverlay" onclick="closeMobileMenu()"></div>
+    <div class="mobile-nav" id="mobileNav">
+        <div class="mobile-nav-header">
+            <span class="logo">SRIRAM <span>SCAFFOLD</span></span>
+            <button class="mobile-menu-btn" onclick="closeMobileMenu()">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <ul class="mobile-nav-links">
+            <li><a href="#about" onclick="closeMobileMenu()">About</a></li>
+            <li><a href="#services" onclick="closeMobileMenu()">Services</a></li>
+            <li><a href="#projects" onclick="closeMobileMenu()">Projects</a></li>
+            <li><a href="#certifications" onclick="closeMobileMenu()">Certifications</a></li>
+            <li><a href="#contact" onclick="closeMobileMenu()">Contact</a></li>
+        </ul>
+    </div>
+
+    <!-- Hero -->
+    <section id="hero">
+        <canvas id="hero-canvas"></canvas>
+        <div class="hero-overlay"></div>
+        <div class="hero-content">
+            <div class="hero-badge">
+                <i class="fas fa-shield-alt"></i>
+                <span>BCA & MOM Accredited Contractor</span>
+            </div>
+            <h1 class="hero-title">
+                Building Tomorrow's<br>
+                <span class="highlight">Infrastructure Today</span>
+            </h1>
+            <p class="hero-subtitle">
+                Singapore's premier scaffolding solutions provider. 15+ years of excellence,
+                500+ completed projects, and an unmatched safety record.
+            </p>
+            <div class="hero-buttons">
+                <a href="#contact" class="btn btn-primary">
+                    <i class="fas fa-paper-plane"></i> Get Free Quote
+                </a>
+                <a href="#projects" class="btn btn-outline">
+                    <i class="fas fa-play"></i> View Projects
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Clients -->
+    <section id="clients">
+        <div style="overflow: hidden;">
+            <div class="clients-track">
+                <div class="client-logo">SHELL</div>
+                <div class="client-logo">EXXON</div>
+                <div class="client-logo">SINGAPORE PETRO</div>
+                <div class="client-logo">MARINE OFFSHORE</div>
+                <div class="client-logo">POWERGAS</div>
+                <div class="client-logo">SEMBCORP</div>
+                <div class="client-logo">SHELL</div>
+                <div class="client-logo">EXXON</div>
+                <div class="client-logo">SINGAPORE PETRO</div>
+                <div class="client-logo">MARINE OFFSHORE</div>
+                <div class="client-logo">POWERGAS</div>
+                <div class="client-logo">SEMBCORP</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About / Stats -->
+    <section id="about">
+        <div class="section-header">
+            <p class="section-label">Why Choose Us</p>
+            <h2 class="section-title">Engineering Excellence Since 2010</h2>
+            <p class="section-subtitle">
+                We are a multidisciplinary construction firm dedicated to tackling the most complex
+                engineering challenges with precision and safety.
+            </p>
+        </div>
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-number" data-target="15">0</div>
+                <div class="stat-label">Years Experience</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" data-target="500">0</div>
+                <div class="stat-label">Projects Completed</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" data-target="9.91">0</div>
+                <div class="stat-label">Million Safe Hours</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" data-target="47">0</div>
+                <div class="stat-label">Safety Awards</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services -->
+    <section id="services" style="background: var(--dark-lighter);">
+        <div class="section-header">
+            <p class="section-label">Our Expertise</p>
+            <h2 class="section-title">Comprehensive Scaffolding Solutions</h2>
+            <p class="section-subtitle">
+                From industrial complexes to high-rise buildings, we deliver specialized
+                scaffolding services for every challenge.
+            </p>
+        </div>
+        <div class="services-grid">
+            <div class="service-card">
+                <div class="service-icon"><i class="fas fa-cubes"></i></div>
+                <h3>Birdcage Scaffold</h3>
+                <p>Complete internal scaffolding solutions for large-area coverage,
+                    ideal for ceiling work and industrial maintenance.</p>
+            </div>
+            <div class="service-card">
+                <div class="service-icon"><i class="fas fa-layer-group"></i></div>
+                <h3>Perimeter Scaffold</h3>
+                <p>External scaffolding systems for building facades, perfect for
+                    construction, painting, and renovation projects.</p>
+            </div>
+            <div class="service-card">
+                <div class="service-icon"><i class="fas fa-arrows-alt-h"></i></div>
+                <h3>Cantilever Scaffold</h3>
+                <p>Specialized access solutions extending beyond the building edge,
+                    designed for complex architectural features.</p>
+            </div>
+            <div class="service-card">
+                <div class="service-icon"><i class="fas fa-link"></i></div>
+                <h3>Hanging Scaffold</h3>
+                <p>Suspended platforms for bridge work and difficult-to-access areas
+                    requiring overhead access solutions.</p>
+            </div>
+            <div class="service-card">
+                <div class="service-icon"><i class="fas fa-hard-hat"></i></div>
+                <h3>Safety Systems</h3>
+                <p>Implementation of rigorous safety protocols and risk management
+                    strategies for zero-accident environments.</p>
+            </div>
+            <div class="service-card">
+                <div class="service-icon"><i class="fas fa-drafting-compass"></i></div>
+                <h3>Technical Consulting</h3>
+                <p>Expert engineering consultation for complex scaffolding designs
+                    and load calculations.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Projects -->
+    <section id="projects">
+        <div class="section-header">
+            <p class="section-label">Our Portfolio</p>
+            <h2 class="section-title">Featured Projects</h2>
+            <p class="section-subtitle">
+                Explore our landmark projects that showcase our expertise in
+                delivering complex scaffolding solutions.
+            </p>
+        </div>
+        <div class="swiper projects-swiper">
+            <div class="swiper-wrapper">
+                <div class="swiper-slide project-slide">
+                    <div class="project-image">
+                        <img src="images/scaffolding-building.png" alt="Skyline Tower">
+                    </div>
+                    <div class="project-content">
+                        <span class="project-tag">High-Rise</span>
+                        <h3>Skyline Tower</h3>
+                        <p>A flagship 50-story glass facade project requiring precision
+                            lifting and specialized scaffolding in dense urban environment.</p>
+                        <div class="project-stats">
+                            <div class="project-stat">
+                                <span>Height</span>
+                                <strong>250 Meters</strong>
+                            </div>
+                            <div class="project-stat">
+                                <span>Duration</span>
+                                <strong>24 Months</strong>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="swiper-slide project-slide">
+                    <div class="project-image">
+                        <img src="images/industrial-factory.png" alt="Apex Logistics">
+                    </div>
+                    <div class="project-content">
+                        <span class="project-tag">Industrial</span>
+                        <h3>Apex Logistics Hub</h3>
+                        <p>A sprawling 500,000 sq. ft. automated logistics facility
+                            delivered 3 months ahead of schedule.</p>
+                        <div class="project-stats">
+                            <div class="project-stat">
+                                <span>Area</span>
+                                <strong>500,000 sq.ft</strong>
+                            </div>
+                            <div class="project-stat">
+                                <span>Award</span>
+                                <strong>Green Builder</strong>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="swiper-slide project-slide">
+                    <div class="project-image">
+                        <img src="images/hero-construction.png" alt="Marina Complex">
+                    </div>
+                    <div class="project-content">
+                        <span class="project-tag">Marine</span>
+                        <h3>Marina Bay Complex</h3>
+                        <p>Complex offshore scaffolding for marine vessel maintenance
+                            and shipyard operations.</p>
+                        <div class="project-stats">
+                            <div class="project-stat">
+                                <span>Scope</span>
+                                <strong>Full Marine</strong>
+                            </div>
+                            <div class="project-stat">
+                                <span>Safety</span>
+                                <strong>Zero Incidents</strong>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="swiper-pagination"></div>
+            <div class="swiper-button-prev"></div>
+            <div class="swiper-button-next"></div>
+        </div>
+    </section>
+
+    <!-- Certifications -->
+    <section id="certifications" style="background: var(--dark-lighter);">
+        <div class="section-header">
+            <p class="section-label">Accreditations</p>
+            <h2 class="section-title">Our Certifications</h2>
+            <p class="section-subtitle">
+                Click on any certification to learn more about our credentials.
+            </p>
+        </div>
+        <div class="certs-grid">
+            <div class="cert-card" onclick="openModal('bca')">
+                <div class="cert-icon">🏛️</div>
+                <h4>BCA Accredited</h4>
+                <p>Building & Construction Authority approved contractor</p>
+            </div>
+            <div class="cert-card" onclick="openModal('mom')">
+                <div class="cert-icon">👷</div>
+                <h4>MOM Approved</h4>
+                <p>Ministry of Manpower certified for workplace safety</p>
+            </div>
+            <div class="cert-card" onclick="openModal('bizsafe')">
+                <div class="cert-icon">⭐</div>
+                <h4>BizSAFE Star</h4>
+                <p>WSH Council recognition for safety excellence</p>
+            </div>
+            <div class="cert-card" onclick="openModal('iso')">
+                <div class="cert-icon">📜</div>
+                <h4>ISO 45001:2018</h4>
+                <p>International occupational health & safety standard</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Modal -->
+    <div class="modal" id="certModal">
+        <div class="modal-content" style="position: relative;">
+            <button class="modal-close" onclick="closeModal()">&times;</button>
+            <div id="modalTitle" style="margin-bottom: 1.5rem;">
+                <h3 class="font-display" style="font-size: 1.75rem; color: var(--primary);"></h3>
+            </div>
+            <div id="modalBody" style="color: var(--text-muted); line-height: 1.8;"></div>
+        </div>
+    </div>
+
+    <!-- Contact -->
+    <section id="contact">
+        <div class="section-header">
+            <p class="section-label">Get In Touch</p>
+            <h2 class="section-title">Start Your Project Today</h2>
+            <p class="section-subtitle">
+                Ready to discuss your scaffolding needs? Contact us for a free consultation.
+            </p>
+        </div>
+        <div class="contact-grid">
+            <form class="contact-form" onsubmit="handleSubmit(event)">
+                <div class="form-group">
+                    <label>Company Name</label>
+                    <input type="text" placeholder="Your company name" required>
+                </div>
+                <div class="form-group">
+                    <label>Email Address</label>
+                    <input type="email" placeholder="your@email.com" required>
+                </div>
+                <div class="form-group">
+                    <label>Phone Number</label>
+                    <input type="tel" placeholder="+65 XXXX XXXX">
+                </div>
+                <div class="form-group">
+                    <label>Project Details</label>
+                    <textarea rows="4" placeholder="Tell us about your project..."></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary" style="width: 100%;">
+                    <i class="fas fa-paper-plane"></i> Send Inquiry
+                </button>
+            </form>
+            <div class="contact-info">
+                <h3>Quick Contact</h3>
+                <div class="contact-item">
+                    <i class="fas fa-phone"></i>
+                    <div>
+                        <h4>Phone</h4>
+                        <p>+65 6250 7275</p>
+                    </div>
+                </div>
+                <div class="contact-item">
+                    <i class="fas fa-envelope"></i>
+                    <div>
+                        <h4>Email</h4>
+                        <p>info@sriramscaffold.com</p>
+                    </div>
+                </div>
+                <div class="contact-item">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <div>
+                        <h4>Address</h4>
+                        <p>Vision Exchange #09-15<br>2 Venture Drive, Singapore 608526</p>
+                    </div>
+                </div>
+                <div class="contact-item">
+                    <i class="fas fa-clock"></i>
+                    <div>
+                        <h4>Working Hours</h4>
+                        <p>Mon - Fri: 8:00 AM - 6:00 PM</p>
+                    </div>
+                </div>
+
+                <!-- Map -->
+                <div class="contact-map"
+                    style="margin-top: 2rem; border-radius: 16px; overflow: hidden; border: 1px solid var(--glass-border);">
+                    <iframe
+                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3988.7636025028!2d103.69548231475395!3d1.3330699619007088!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31da0f7a3a6d3b5b%3A0x1b1f1d2b3c4d5e6f!2sVision%20Exchange%2C%202%20Venture%20Dr%2C%20Singapore%20608526!5e0!3m2!1sen!2ssg!4v1701936000000!5m2!1sen!2ssg"
+                        width="100%" height="200" style="border:0; filter: grayscale(80%) invert(92%) contrast(90%);"
+                        allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade">
+                    </iframe>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-logo">SRIRAM <span>SCAFFOLD</span></div>
+            <p class="footer-text">Singapore's Premier Scaffolding Solutions Provider</p>
+            <div class="social-links">
+                <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                <a href="#"><i class="fab fa-facebook-f"></i></a>
+                <a href="#"><i class="fab fa-instagram"></i></a>
+                <a href="#"><i class="fab fa-whatsapp"></i></a>
+            </div>
+            <p class="copyright">&copy; 2025 Sriram Scaffold & Services Pte Ltd. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Swiper JS -->
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+
+    <script>
+        // Theme Management
+        function toggleTheme() {
+            const html = document.documentElement;
+            const currentTheme = html.getAttribute('data-theme');
+            const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+
+            html.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+        }
+
+        // Load saved theme on page load
+        (function () {
+            const savedTheme = localStorage.getItem('theme') || 'dark';
+            document.documentElement.setAttribute('data-theme', savedTheme);
+        })();
+
+        // Header scroll effect
+        window.addEventListener('scroll', () => {
+            const header = document.getElementById('header');
+            if (window.scrollY > 50) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+        });
+
+        // Mobile menu
+        function toggleMobileMenu() {
+            document.getElementById('mobileNav').classList.add('show');
+            document.getElementById('mobileOverlay').classList.add('show');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeMobileMenu() {
+            document.getElementById('mobileNav').classList.remove('show');
+            document.getElementById('mobileOverlay').classList.remove('show');
+            document.body.style.overflow = '';
+        }
+
+        // Swiper initialization
+        const projectsSwiper = new Swiper('.projects-swiper', {
+            slidesPerView: 1,
+            spaceBetween: 30,
+            loop: true,
+            autoplay: {
+                delay: 5000,
+                disableOnInteraction: false,
+            },
+            pagination: {
+                el: '.swiper-pagination',
+                clickable: true,
+            },
+            navigation: {
+                nextEl: '.swiper-button-next',
+                prevEl: '.swiper-button-prev',
+            },
+            breakpoints: {
+                768: {
+                    slidesPerView: 2,
+                },
+                1200: {
+                    slidesPerView: 3,
+                },
+            },
+        });
+
+        // Counter animation
+        const counters = document.querySelectorAll('.stat-number');
+        const observerOptions = { threshold: 0.5 };
+
+        const counterObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const counter = entry.target;
+                    const target = parseFloat(counter.dataset.target);
+                    const isDecimal = target % 1 !== 0;
+                    let current = 0;
+                    const increment = target / 100;
+
+                    const updateCounter = () => {
+                        if (current < target) {
+                            current += increment;
+                            counter.textContent = isDecimal
+                                ? current.toFixed(2)
+                                : Math.ceil(current);
+                            requestAnimationFrame(updateCounter);
+                        } else {
+                            counter.textContent = isDecimal
+                                ? target.toFixed(2)
+                                : target + '+';
+                        }
+                    };
+                    updateCounter();
+                    counterObserver.unobserve(counter);
+                }
+            });
+        }, observerOptions);
+
+        counters.forEach(counter => counterObserver.observe(counter));
+
+        // Modal functionality
+        const certData = {
+            bca: {
+                title: '🏛️ BCA Accredited',
+                body: `<p>Sriram Scaffold & Services Pte Ltd is fully accredited by Singapore's 
+                       <strong>Building and Construction Authority (BCA)</strong> as a Registered 
+                       Scaffolding Contractor (RSC).</p>
+                       <p style="margin-top: 1rem;"><strong>Registration No:</strong> SC/22/XXXXX</p>
+                       <p style="margin-top: 1rem;">Valid for all classes of scaffolding works 
+                       including birdcage, cantilever, hanging, and temporary works platforms.</p>`
+            },
+            mom: {
+                title: '👷 MOM Approved',
+                body: `<p>Certified by <strong>Ministry of Manpower (MOM)</strong> under the 
+                       <strong>Factories (Scaffolds) Regulations</strong>.</p>
+                       <p style="margin-top: 1rem;">All supervisors hold <strong>WSQ Supervise 
+                       Safe Scaffolding Operations (SSSO)</strong> certification.</p>
+                       <p style="margin-top: 1rem;"><strong>Contractor Registration No:</strong> 
+                       29X-XXXXXXX-A</p>`
+            },
+            bizsafe: {
+                title: '⭐ BizSAFE Star',
+                body: `<p><strong>BizSAFE Level Star</strong> awarded by Workplace Safety and 
+                       Health (WSH) Council.</p>
+                       <p style="margin-top: 1rem;">Recognizes our comprehensive safety management 
+                       system and zero LTA (Lost Time Accident) record over 9.91 million man-hours.</p>
+                       <p style="margin-top: 1rem;"><strong>Level Star validity:</strong> 2024-2027</p>`
+            },
+            iso: {
+                title: '📜 ISO 45001:2018',
+                body: `<p>Certified to <strong>ISO 45001:2018 Occupational Health & Safety 
+                       Management Systems</strong> by accredited certification body.</p>
+                       <p style="margin-top: 1rem;"><strong>Certificate No:</strong> SGX/ISO45001/XXXXX</p>
+                       <p style="margin-top: 1rem;"><strong>Scope:</strong> Scaffolding design, 
+                       erection, alteration, and dismantling services</p>
+                       <p style="margin-top: 1rem;"><strong>Valid till:</strong> December 2026</p>`
+            }
+        };
+
+        function openModal(type) {
+            const modal = document.getElementById('certModal');
+            document.querySelector('#modalTitle h3').innerHTML = certData[type].title;
+            document.getElementById('modalBody').innerHTML = certData[type].body;
+            modal.classList.add('show');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal() {
+            document.getElementById('certModal').classList.remove('show');
+            document.body.style.overflow = '';
+        }
+
+        document.getElementById('certModal').addEventListener('click', (e) => {
+            if (e.target.id === 'certModal') closeModal();
+        });
+
+        // Form submission
+        function handleSubmit(e) {
+            e.preventDefault();
+            alert('Thank you! Your inquiry has been submitted. We will respond within 24 hours.');
+            e.target.reset();
+        }
+
+        // Three.js 3D Scene
+        const canvas = document.getElementById('hero-canvas');
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+        const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
+
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+
+        // Create scaffolding structure
+        const scaffoldGroup = new THREE.Group();
+        const material = new THREE.MeshBasicMaterial({
+            color: 0x22c55e,
+            wireframe: true,
+            transparent: true,
+            opacity: 0.6
+        });
+
+        // Create grid of boxes to simulate scaffolding
+        for (let x = -3; x <= 3; x += 1.5) {
+            for (let y = -2; y <= 2; y += 1.5) {
+                for (let z = -2; z <= 2; z += 1.5) {
+                    const geometry = new THREE.BoxGeometry(0.8, 0.8, 0.8);
+                    const cube = new THREE.Mesh(geometry, material);
+                    cube.position.set(x, y, z);
+                    scaffoldGroup.add(cube);
+                }
+            }
+        }
+
+        // Add connecting lines
+        const lineMaterial = new THREE.LineBasicMaterial({
+            color: 0xf59e0b,
+            transparent: true,
+            opacity: 0.4
+        });
+
+        for (let i = 0; i < 20; i++) {
+            const points = [];
+            points.push(new THREE.Vector3(
+                (Math.random() - 0.5) * 8,
+                (Math.random() - 0.5) * 6,
+                (Math.random() - 0.5) * 6
+            ));
+            points.push(new THREE.Vector3(
+                (Math.random() - 0.5) * 8,
+                (Math.random() - 0.5) * 6,
+                (Math.random() - 0.5) * 6
+            ));
+            const lineGeometry = new THREE.BufferGeometry().setFromPoints(points);
+            const line = new THREE.Line(lineGeometry, lineMaterial);
+            scaffoldGroup.add(line);
+        }
+
+        scene.add(scaffoldGroup);
+        camera.position.z = 8;
+
+        // Mouse movement effect
+        let mouseX = 0;
+        let mouseY = 0;
+
+        document.addEventListener('mousemove', (e) => {
+            mouseX = (e.clientX / window.innerWidth) * 2 - 1;
+            mouseY = -(e.clientY / window.innerHeight) * 2 + 1;
+        });
+
+        // Animation loop
+        function animate() {
+            requestAnimationFrame(animate);
+
+            scaffoldGroup.rotation.x += 0.002;
+            scaffoldGroup.rotation.y += 0.003;
+
+            // Respond to mouse
+            scaffoldGroup.rotation.x += mouseY * 0.01;
+            scaffoldGroup.rotation.y += mouseX * 0.01;
+
+            renderer.render(scene, camera);
+        }
+
+        animate();
+
+        // Handle resize
+        window.addEventListener('resize', () => {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        });
+
+        // Smooth scroll
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth' });
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>
