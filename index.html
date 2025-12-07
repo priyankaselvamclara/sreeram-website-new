@@ -16,7 +16,7 @@
         rel="stylesheet">
 
     <!-- Three.js -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+
 
     <!-- Swiper CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css">
@@ -102,6 +102,10 @@
             border-bottom: 1px solid var(--glass-border);
         }
 
+        [data-theme="light"] header.scrolled {
+            background: rgba(255, 255, 255, 0.9);
+        }
+
         nav {
             max-width: 1400px;
             margin: 0 auto;
@@ -114,7 +118,7 @@
             font-family: 'Space Grotesk', sans-serif;
             font-size: 1.5rem;
             font-weight: 700;
-            color: white;
+            color: var(--text);
             text-decoration: none;
             display: flex;
             align-items: center;
@@ -132,12 +136,13 @@
         }
 
         .nav-links a {
-            color: var(--text-muted);
+            color: var(--text);
             text-decoration: none;
-            font-weight: 500;
+            font-weight: 600;
             font-size: 0.95rem;
             transition: all 0.3s;
             position: relative;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
         }
 
         .nav-links a::after {
@@ -184,9 +189,7 @@
             cursor: pointer;
         }
 
-        header.scrolled .mobile-menu-btn {
-            color: white;
-        }
+
 
         /* Theme Toggle */
         .theme-toggle {
@@ -260,32 +263,18 @@
         }
 
         .hero-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 4rem;
+            display: flex;
             align-items: center;
+            justify-content: center;
             width: 100%;
             height: 100%;
             position: relative;
             z-index: 3;
+            /* Removed padding/max-width from here as it messes with full width container logic, 
+               HTML style attribute handles the constraint for text effectively or we can rely on hero-text-content max-width */
         }
 
-        #hero-canvas {
-            width: 100% !important;
-            height: 500px !important;
-            border-radius: 20px;
-            /* background: rgba(0, 0, 0, 0.2);
-            backdrop-filter: blur(5px);
-            border: 1px solid var(--glass-border); */
-        }
 
-        .hero-3d-container {
-            width: 100%;
-            height: 100%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
 
         .hero-overlay {
             position: absolute;
@@ -305,9 +294,10 @@
         .hero-text-content {
             position: relative;
             z-index: 3;
-            max-width: 1400px;
+            width: 90%;
+            max-width: 1000px;
             margin: 0 auto;
-            /* padding: 0 2rem; REMOVED padding from here as it's handled by inner padding now */
+            text-align: center;
 
             padding: 2.5rem;
             border-radius: 24px;
@@ -335,6 +325,7 @@
             font-size: 0.875rem;
             margin-bottom: 1.5rem;
             animation: fadeInUp 1s ease forwards;
+            /* margin-left: auto; margin-right: auto; handled by parent text-align center usually, but inline-flex needs it if we want strict centering */
         }
 
         .hero-badge i {
@@ -362,7 +353,10 @@
         .hero-subtitle {
             font-size: 1.25rem;
             color: var(--text-muted);
-            max-width: 600px;
+            max-width: 800px;
+            /* Increased for center layout */
+            margin-left: auto;
+            margin-right: auto;
             margin-bottom: 2rem;
             opacity: 0;
             animation: fadeInUp 1s 0.4s ease forwards;
@@ -373,6 +367,7 @@
             display: flex;
             gap: 1rem;
             flex-wrap: wrap;
+            justify-content: center;
             opacity: 0;
             animation: fadeInUp 1s 0.6s ease forwards;
         }
@@ -1309,7 +1304,7 @@
     <!-- Hero -->
     <section id="hero">
         <div class="hero-overlay"></div>
-        <div class="hero-grid" style="max-width: 1400px; margin: 0 auto; padding: 0 2rem;">
+        <div class="hero-grid">
             <div class="hero-text-content">
                 <div class="hero-badge">
                     <i class="fas fa-shield-alt"></i>
@@ -1332,9 +1327,7 @@
                     </a>
                 </div>
             </div>
-            <div class="hero-3d-container">
-                <canvas id="hero-canvas"></canvas>
-            </div>
+
         </div>
     </section>
 
@@ -1823,259 +1816,8 @@
             e.target.reset();
         }
 
-        // Three.js 3D Scaffolding Erection Scene
-        // Three.js 3D Scaffolding Erection Scene
-        const canvas = document.getElementById('hero-canvas');
-        const container = document.querySelector('.hero-3d-container');
-        const scene = new THREE.Scene();
+        // Form submission ended above
 
-        // Get container dimensions
-        const width = container.clientWidth;
-        const height = container.clientHeight;
-
-        const camera = new THREE.PerspectiveCamera(75, width / height, 0.1, 1000);
-        const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
-
-        renderer.setSize(width, height);
-        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-
-        // Scaffolding configuration
-        const config = {
-            levels: 5,
-            width: 3,
-            depth: 3,
-            poleHeight: 2,
-            poleRadius: 0.05,
-            beamRadius: 0.03,
-            platformThickness: 0.1
-        };
-
-        // Materials
-        const poleMaterial = new THREE.MeshBasicMaterial({
-            color: 0x22c55e,
-            transparent: true,
-            opacity: 0
-        });
-
-        const beamMaterial = new THREE.MeshBasicMaterial({
-            color: 0xf59e0b,
-            transparent: true,
-            opacity: 0
-        });
-
-        const platformMaterial = new THREE.MeshBasicMaterial({
-            color: 0xfbbf24,
-            transparent: true,
-            opacity: 0
-        });
-
-        const braceMaterial = new THREE.MeshBasicMaterial({
-            color: 0xf59e0b,
-            transparent: true,
-            opacity: 0
-        });
-
-        // Main scaffolding group
-        const scaffoldGroup = new THREE.Group();
-        const allComponents = [];
-
-        // Create scaffolding structure
-        function createScaffolding() {
-            let componentIndex = 0;
-
-            for (let level = 0; level < config.levels; level++) {
-                const yPos = level * config.poleHeight;
-
-                // Create vertical poles at corners
-                const polePositions = [
-                    [-config.width / 2, yPos, -config.depth / 2],
-                    [config.width / 2, yPos, -config.depth / 2],
-                    [-config.width / 2, yPos, config.depth / 2],
-                    [config.width / 2, yPos, config.depth / 2]
-                ];
-
-                polePositions.forEach(pos => {
-                    const poleGeometry = new THREE.CylinderGeometry(
-                        config.poleRadius,
-                        config.poleRadius,
-                        config.poleHeight,
-                        8
-                    );
-                    const pole = new THREE.Mesh(poleGeometry, poleMaterial.clone());
-                    pole.position.set(pos[0], pos[1] + config.poleHeight / 2, pos[2]);
-                    scaffoldGroup.add(pole);
-                    allComponents.push({ mesh: pole, delay: componentIndex++ * 0.05, type: 'pole' });
-                });
-
-                // Create horizontal beams
-                const beamConfigs = [
-                    // Front and back beams
-                    {
-                        start: [-config.width / 2, yPos + config.poleHeight, -config.depth / 2],
-                        end: [config.width / 2, yPos + config.poleHeight, -config.depth / 2]
-                    },
-                    {
-                        start: [-config.width / 2, yPos + config.poleHeight, config.depth / 2],
-                        end: [config.width / 2, yPos + config.poleHeight, config.depth / 2]
-                    },
-                    // Left and right beams
-                    {
-                        start: [-config.width / 2, yPos + config.poleHeight, -config.depth / 2],
-                        end: [-config.width / 2, yPos + config.poleHeight, config.depth / 2]
-                    },
-                    {
-                        start: [config.width / 2, yPos + config.poleHeight, -config.depth / 2],
-                        end: [config.width / 2, yPos + config.poleHeight, config.depth / 2]
-                    }
-                ];
-
-                beamConfigs.forEach(beam => {
-                    const length = Math.sqrt(
-                        Math.pow(beam.end[0] - beam.start[0], 2) +
-                        Math.pow(beam.end[2] - beam.start[2], 2)
-                    );
-                    const beamGeometry = new THREE.CylinderGeometry(
-                        config.beamRadius,
-                        config.beamRadius,
-                        length,
-                        8
-                    );
-                    const beamMesh = new THREE.Mesh(beamGeometry, beamMaterial.clone());
-
-                    const midX = (beam.start[0] + beam.end[0]) / 2;
-                    const midZ = (beam.start[2] + beam.end[2]) / 2;
-                    beamMesh.position.set(midX, beam.start[1], midZ);
-
-                    if (beam.start[0] !== beam.end[0]) {
-                        beamMesh.rotation.z = Math.PI / 2;
-                    } else {
-                        beamMesh.rotation.x = Math.PI / 2;
-                    }
-
-                    scaffoldGroup.add(beamMesh);
-                    allComponents.push({ mesh: beamMesh, delay: componentIndex++ * 0.05, type: 'beam' });
-                });
-
-                // Add diagonal braces for stability
-                if (level > 0) {
-                    const braceConfigs = [
-                        {
-                            start: [-config.width / 2, yPos, -config.depth / 2],
-                            end: [config.width / 2, yPos + config.poleHeight, config.depth / 2]
-                        },
-                        {
-                            start: [config.width / 2, yPos, -config.depth / 2],
-                            end: [-config.width / 2, yPos + config.poleHeight, config.depth / 2]
-                        }
-                    ];
-
-                    braceConfigs.forEach(brace => {
-                        const dx = brace.end[0] - brace.start[0];
-                        const dy = brace.end[1] - brace.start[1];
-                        const dz = brace.end[2] - brace.start[2];
-                        const length = Math.sqrt(dx * dx + dy * dy + dz * dz);
-
-                        const braceGeometry = new THREE.CylinderGeometry(
-                            config.beamRadius * 0.7,
-                            config.beamRadius * 0.7,
-                            length,
-                            6
-                        );
-                        const braceMesh = new THREE.Mesh(braceGeometry, braceMaterial.clone());
-
-                        braceMesh.position.set(
-                            (brace.start[0] + brace.end[0]) / 2,
-                            (brace.start[1] + brace.end[1]) / 2,
-                            (brace.start[2] + brace.end[2]) / 2
-                        );
-
-                        const axis = new THREE.Vector3(0, 1, 0);
-                        const direction = new THREE.Vector3(dx, dy, dz).normalize();
-                        const quaternion = new THREE.Quaternion().setFromUnitVectors(axis, direction);
-                        braceMesh.setRotationFromQuaternion(quaternion);
-
-                        scaffoldGroup.add(braceMesh);
-                        allComponents.push({ mesh: braceMesh, delay: componentIndex++ * 0.05, type: 'brace' });
-                    });
-                }
-
-                // Create platform deck
-                const platformGeometry = new THREE.BoxGeometry(
-                    config.width,
-                    config.platformThickness,
-                    config.depth
-                );
-                const platform = new THREE.Mesh(platformGeometry, platformMaterial.clone());
-                platform.position.set(0, yPos + config.poleHeight, 0);
-                scaffoldGroup.add(platform);
-                allComponents.push({ mesh: platform, delay: componentIndex++ * 0.05, type: 'platform' });
-            }
-        }
-
-        createScaffolding();
-        scene.add(scaffoldGroup);
-        camera.position.set(6, 4, 8);
-        camera.lookAt(0, config.levels * config.poleHeight / 2, 0);
-
-        // Animation state
-        let animationTime = 0;
-        const animationDuration = 8; // seconds for full construction
-        const maxOpacity = 0.7;
-
-        // Mouse movement effect
-        let mouseX = 0;
-        let mouseY = 0;
-        let targetRotationY = 0;
-        let targetRotationX = 0;
-
-        document.addEventListener('mousemove', (e) => {
-            mouseX = (e.clientX / window.innerWidth) * 2 - 1;
-            mouseY = -(e.clientY / window.innerHeight) * 2 + 1;
-        });
-
-        // Animation loop
-        function animate() {
-            requestAnimationFrame(animate);
-
-            animationTime += 0.016; // ~60fps
-            const progress = (animationTime % animationDuration) / animationDuration;
-
-            // Animate each component appearing
-            allComponents.forEach(component => {
-                const componentProgress = Math.max(0, Math.min(1, (progress - component.delay) * 3));
-
-                // Scale animation
-                const scale = 0.3 + (componentProgress * 0.7);
-                component.mesh.scale.set(scale, scale, scale);
-
-                // Opacity animation
-                component.mesh.material.opacity = componentProgress * maxOpacity;
-            });
-
-            // Smooth rotation based on mouse
-            targetRotationY = mouseX * 0.3;
-            targetRotationX = mouseY * 0.2;
-
-            scaffoldGroup.rotation.y += (targetRotationY - scaffoldGroup.rotation.y) * 0.05;
-            scaffoldGroup.rotation.x += (targetRotationX - scaffoldGroup.rotation.x) * 0.05;
-
-            // Slow continuous rotation
-            scaffoldGroup.rotation.y += 0.002;
-
-            renderer.render(scene, camera);
-        }
-
-        animate();
-
-        // Handle resize
-        window.addEventListener('resize', () => {
-            const width = container.clientWidth;
-            const height = container.clientHeight;
-
-            camera.aspect = width / height;
-            camera.updateProjectionMatrix();
-            renderer.setSize(width, height);
-        });
 
         // Smooth scroll
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
