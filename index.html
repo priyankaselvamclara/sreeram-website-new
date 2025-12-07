@@ -179,9 +179,13 @@
             display: none;
             background: none;
             border: none;
-            color: white;
+            color: var(--text);
             font-size: 1.5rem;
             cursor: pointer;
+        }
+
+        header.scrolled .mobile-menu-btn {
+            color: white;
         }
 
         /* Theme Toggle */
@@ -245,44 +249,79 @@
         }
 
         /* Hero Section */
+        /* Hero Section */
         #hero {
-            height: 100vh;
+            min-height: 100vh;
             position: relative;
             display: flex;
             align-items: center;
             overflow: hidden;
+            background: url('https://images.unsplash.com/photo-1541888946425-d81bb19240f5?q=80&w=2670&auto=format&fit=crop') center/cover no-repeat;
+        }
+
+        .hero-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+            width: 100%;
+            height: 100%;
+            position: relative;
+            z-index: 3;
         }
 
         #hero-canvas {
-            position: absolute;
-            top: 0;
-            left: 0;
+            width: 100% !important;
+            height: 500px !important;
+            border-radius: 20px;
+            /* background: rgba(0, 0, 0, 0.2);
+            backdrop-filter: blur(5px);
+            border: 1px solid var(--glass-border); */
+        }
+
+        .hero-3d-container {
             width: 100%;
             height: 100%;
-            z-index: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
         .hero-overlay {
             position: absolute;
             top: 0;
             left: 0;
-            right: 0;
-            bottom: 0;
-            background: linear-gradient(135deg, rgba(10, 10, 10, 0.7), rgba(26, 92, 56, 0.3));
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(10, 10, 10, 0.6), rgba(26, 92, 56, 0.2));
             z-index: 2;
             transition: background 0.3s ease;
         }
 
         [data-theme="light"] .hero-overlay {
-            background: linear-gradient(135deg, rgba(255, 255, 255, 0.85), rgba(134, 239, 172, 0.4));
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.6), rgba(134, 239, 172, 0.3));
         }
 
-        .hero-content {
+        .hero-text-content {
             position: relative;
             z-index: 3;
             max-width: 1400px;
             margin: 0 auto;
-            padding: 0 2rem;
+            /* padding: 0 2rem; REMOVED padding from here as it's handled by inner padding now */
+
+            padding: 2.5rem;
+            border-radius: 24px;
+            background: rgba(10, 10, 10, 0.5);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        [data-theme="light"] .hero-text-content {
+            background: rgba(255, 255, 255, 0.5);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
         }
 
         .hero-badge {
@@ -310,6 +349,7 @@
             margin-bottom: 1.5rem;
             opacity: 0;
             animation: fadeInUp 1s 0.2s ease forwards;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
         }
 
         .hero-title .highlight {
@@ -326,6 +366,7 @@
             margin-bottom: 2rem;
             opacity: 0;
             animation: fadeInUp 1s 0.4s ease forwards;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
         }
 
         .hero-buttons {
@@ -363,7 +404,7 @@
 
         .btn-outline {
             background: transparent;
-            color: white;
+            color: var(--text);
             border: 2px solid var(--glass-border);
         }
 
@@ -445,6 +486,19 @@
             font-weight: 700;
             color: var(--text-muted);
             transition: all 0.3s;
+            padding: 1rem;
+        }
+
+        .client-logo img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+            filter: grayscale(100%) opacity(0.6);
+            transition: all 0.3s;
+        }
+
+        .client-logo:hover img {
+            filter: grayscale(0%) opacity(1);
         }
 
         .client-logo:hover {
@@ -456,6 +510,14 @@
         [data-theme="light"] .client-logo {
             background: var(--dark-card);
             box-shadow: 0 2px 10px var(--shadow);
+        }
+
+        [data-theme="light"] .client-logo img {
+            filter: grayscale(100%) opacity(0.7);
+        }
+
+        [data-theme="light"] .client-logo:hover img {
+            filter: grayscale(0%) opacity(1);
         }
 
         @keyframes scroll {
@@ -987,7 +1049,7 @@
         }
 
         .mobile-nav-links a {
-            color: white;
+            color: var(--text);
             text-decoration: none;
             font-size: 1.25rem;
             font-weight: 500;
@@ -1015,6 +1077,39 @@
 
         /* Responsive */
         @media (max-width: 1024px) {
+            .hero-grid {
+                display: block;
+                position: relative;
+            }
+
+            .hero-text-content {
+                position: relative;
+                z-index: 3;
+                text-align: center;
+                padding-top: 4rem;
+                pointer-events: none;
+                /* Allow clicks to pass through container */
+            }
+
+            .hero-text-content>* {
+                pointer-events: auto;
+                /* Re-enable clicks on interactive elements */
+            }
+
+            .hero-3d-container {
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                z-index: 1;
+                opacity: 0.6;
+            }
+
+            .hero-buttons {
+                justify-content: center;
+            }
+
             .stats-grid {
                 grid-template-columns: repeat(2, 1fr);
             }
@@ -1069,6 +1164,101 @@
                 justify-content: center;
             }
         }
+
+        /* WhatsApp Floating Button */
+        .whatsapp-float {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            z-index: 999;
+        }
+
+        .whatsapp-button {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #25d366, #128c7e);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 20px rgba(37, 211, 102, 0.4);
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            text-decoration: none;
+            animation: whatsappPulse 2s infinite;
+        }
+
+        .whatsapp-button:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 30px rgba(37, 211, 102, 0.6);
+        }
+
+        .whatsapp-button i {
+            color: white;
+            font-size: 1.8rem;
+        }
+
+        .whatsapp-tooltip {
+            position: absolute;
+            right: 70px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: var(--dark-card);
+            color: var(--text);
+            padding: 0.75rem 1.25rem;
+            border-radius: 12px;
+            white-space: nowrap;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s;
+            box-shadow: 0 4px 20px var(--shadow);
+            border: 1px solid var(--glass-border);
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        .whatsapp-float:hover .whatsapp-tooltip {
+            opacity: 1;
+            visibility: visible;
+            right: 75px;
+        }
+
+        [data-theme="light"] .whatsapp-tooltip {
+            background: white;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        @keyframes whatsappPulse {
+
+            0%,
+            100% {
+                box-shadow: 0 4px 20px rgba(37, 211, 102, 0.4);
+            }
+
+            50% {
+                box-shadow: 0 4px 30px rgba(37, 211, 102, 0.7);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .whatsapp-float {
+                bottom: 20px;
+                right: 20px;
+            }
+
+            .whatsapp-button {
+                width: 55px;
+                height: 55px;
+            }
+
+            .whatsapp-button i {
+                font-size: 1.6rem;
+            }
+
+            .whatsapp-tooltip {
+                display: none;
+            }
+        }
     </style>
 </head>
 
@@ -1076,7 +1266,7 @@
     <!-- Header -->
     <header id="header">
         <nav>
-            <a href="#" class="logo">SRIRAM <span>SCAFFOLD</span></a>
+            <a href="#hero" class="logo">SRIRAM <span>SCAFFOLD</span></a>
             <ul class="nav-links">
                 <li><a href="#about">About</a></li>
                 <li><a href="#services">Services</a></li>
@@ -1118,28 +1308,32 @@
 
     <!-- Hero -->
     <section id="hero">
-        <canvas id="hero-canvas"></canvas>
         <div class="hero-overlay"></div>
-        <div class="hero-content">
-            <div class="hero-badge">
-                <i class="fas fa-shield-alt"></i>
-                <span>BCA & MOM Accredited Contractor</span>
+        <div class="hero-grid" style="max-width: 1400px; margin: 0 auto; padding: 0 2rem;">
+            <div class="hero-text-content">
+                <div class="hero-badge">
+                    <i class="fas fa-shield-alt"></i>
+                    <span>BCA & MOM Accredited Contractor</span>
+                </div>
+                <h1 class="hero-title">
+                    Building Tomorrow's<br>
+                    <span class="highlight">Infrastructure Today</span>
+                </h1>
+                <p class="hero-subtitle">
+                    Singapore's premier scaffolding solutions provider. 15+ years of excellence,
+                    500+ completed projects, and an unmatched safety record.
+                </p>
+                <div class="hero-buttons">
+                    <a href="#contact" class="btn btn-primary">
+                        <i class="fas fa-paper-plane"></i> Get Free Quote
+                    </a>
+                    <a href="#projects" class="btn btn-outline">
+                        <i class="fas fa-play"></i> View Projects
+                    </a>
+                </div>
             </div>
-            <h1 class="hero-title">
-                Building Tomorrow's<br>
-                <span class="highlight">Infrastructure Today</span>
-            </h1>
-            <p class="hero-subtitle">
-                Singapore's premier scaffolding solutions provider. 15+ years of excellence,
-                500+ completed projects, and an unmatched safety record.
-            </p>
-            <div class="hero-buttons">
-                <a href="#contact" class="btn btn-primary">
-                    <i class="fas fa-paper-plane"></i> Get Free Quote
-                </a>
-                <a href="#projects" class="btn btn-outline">
-                    <i class="fas fa-play"></i> View Projects
-                </a>
+            <div class="hero-3d-container">
+                <canvas id="hero-canvas"></canvas>
             </div>
         </div>
     </section>
@@ -1148,18 +1342,20 @@
     <section id="clients">
         <div style="overflow: hidden;">
             <div class="clients-track">
-                <div class="client-logo">SHELL</div>
-                <div class="client-logo">EXXON</div>
-                <div class="client-logo">SINGAPORE PETRO</div>
-                <div class="client-logo">MARINE OFFSHORE</div>
-                <div class="client-logo">POWERGAS</div>
-                <div class="client-logo">SEMBCORP</div>
-                <div class="client-logo">SHELL</div>
-                <div class="client-logo">EXXON</div>
-                <div class="client-logo">SINGAPORE PETRO</div>
-                <div class="client-logo">MARINE OFFSHORE</div>
-                <div class="client-logo">POWERGAS</div>
-                <div class="client-logo">SEMBCORP</div>
+                <div class="client-logo"><img src="https://logo.clearbit.com/shell.com" alt="Shell"></div>
+                <div class="client-logo"><img src="https://logo.clearbit.com/exxonmobil.com" alt="ExxonMobil"></div>
+                <div class="client-logo"><img src="https://logo.clearbit.com/spc.com.sg" alt="Singapore Petroleum">
+                </div>
+                <div class="client-logo"><img src="https://logo.clearbit.com/sembcorp.com" alt="Sembcorp"></div>
+                <div class="client-logo"><img src="https://logo.clearbit.com/spgroup.com.sg" alt="SP Group"></div>
+                <div class="client-logo"><img src="https://logo.clearbit.com/bca.gov.sg" alt="BCA Approved"></div>
+                <div class="client-logo"><img src="https://logo.clearbit.com/shell.com" alt="Shell"></div>
+                <div class="client-logo"><img src="https://logo.clearbit.com/exxonmobil.com" alt="ExxonMobil"></div>
+                <div class="client-logo"><img src="https://logo.clearbit.com/spc.com.sg" alt="Singapore Petroleum">
+                </div>
+                <div class="client-logo"><img src="https://logo.clearbit.com/sembcorp.com" alt="Sembcorp"></div>
+                <div class="client-logo"><img src="https://logo.clearbit.com/spgroup.com.sg" alt="SP Group"></div>
+                <div class="client-logo"><img src="https://logo.clearbit.com/bca.gov.sg" alt="BCA Approved"></div>
             </div>
         </div>
     </section>
@@ -1627,66 +1823,210 @@
             e.target.reset();
         }
 
-        // Three.js 3D Scene
+        // Three.js 3D Scaffolding Erection Scene
+        // Three.js 3D Scaffolding Erection Scene
         const canvas = document.getElementById('hero-canvas');
+        const container = document.querySelector('.hero-3d-container');
         const scene = new THREE.Scene();
-        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+
+        // Get container dimensions
+        const width = container.clientWidth;
+        const height = container.clientHeight;
+
+        const camera = new THREE.PerspectiveCamera(75, width / height, 0.1, 1000);
         const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
 
-        renderer.setSize(window.innerWidth, window.innerHeight);
+        renderer.setSize(width, height);
         renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 
-        // Create scaffolding structure
-        const scaffoldGroup = new THREE.Group();
-        const material = new THREE.MeshBasicMaterial({
+        // Scaffolding configuration
+        const config = {
+            levels: 5,
+            width: 3,
+            depth: 3,
+            poleHeight: 2,
+            poleRadius: 0.05,
+            beamRadius: 0.03,
+            platformThickness: 0.1
+        };
+
+        // Materials
+        const poleMaterial = new THREE.MeshBasicMaterial({
             color: 0x22c55e,
-            wireframe: true,
             transparent: true,
-            opacity: 0.6
+            opacity: 0
         });
 
-        // Create grid of boxes to simulate scaffolding
-        for (let x = -3; x <= 3; x += 1.5) {
-            for (let y = -2; y <= 2; y += 1.5) {
-                for (let z = -2; z <= 2; z += 1.5) {
-                    const geometry = new THREE.BoxGeometry(0.8, 0.8, 0.8);
-                    const cube = new THREE.Mesh(geometry, material);
-                    cube.position.set(x, y, z);
-                    scaffoldGroup.add(cube);
+        const beamMaterial = new THREE.MeshBasicMaterial({
+            color: 0xf59e0b,
+            transparent: true,
+            opacity: 0
+        });
+
+        const platformMaterial = new THREE.MeshBasicMaterial({
+            color: 0xfbbf24,
+            transparent: true,
+            opacity: 0
+        });
+
+        const braceMaterial = new THREE.MeshBasicMaterial({
+            color: 0xf59e0b,
+            transparent: true,
+            opacity: 0
+        });
+
+        // Main scaffolding group
+        const scaffoldGroup = new THREE.Group();
+        const allComponents = [];
+
+        // Create scaffolding structure
+        function createScaffolding() {
+            let componentIndex = 0;
+
+            for (let level = 0; level < config.levels; level++) {
+                const yPos = level * config.poleHeight;
+
+                // Create vertical poles at corners
+                const polePositions = [
+                    [-config.width / 2, yPos, -config.depth / 2],
+                    [config.width / 2, yPos, -config.depth / 2],
+                    [-config.width / 2, yPos, config.depth / 2],
+                    [config.width / 2, yPos, config.depth / 2]
+                ];
+
+                polePositions.forEach(pos => {
+                    const poleGeometry = new THREE.CylinderGeometry(
+                        config.poleRadius,
+                        config.poleRadius,
+                        config.poleHeight,
+                        8
+                    );
+                    const pole = new THREE.Mesh(poleGeometry, poleMaterial.clone());
+                    pole.position.set(pos[0], pos[1] + config.poleHeight / 2, pos[2]);
+                    scaffoldGroup.add(pole);
+                    allComponents.push({ mesh: pole, delay: componentIndex++ * 0.05, type: 'pole' });
+                });
+
+                // Create horizontal beams
+                const beamConfigs = [
+                    // Front and back beams
+                    {
+                        start: [-config.width / 2, yPos + config.poleHeight, -config.depth / 2],
+                        end: [config.width / 2, yPos + config.poleHeight, -config.depth / 2]
+                    },
+                    {
+                        start: [-config.width / 2, yPos + config.poleHeight, config.depth / 2],
+                        end: [config.width / 2, yPos + config.poleHeight, config.depth / 2]
+                    },
+                    // Left and right beams
+                    {
+                        start: [-config.width / 2, yPos + config.poleHeight, -config.depth / 2],
+                        end: [-config.width / 2, yPos + config.poleHeight, config.depth / 2]
+                    },
+                    {
+                        start: [config.width / 2, yPos + config.poleHeight, -config.depth / 2],
+                        end: [config.width / 2, yPos + config.poleHeight, config.depth / 2]
+                    }
+                ];
+
+                beamConfigs.forEach(beam => {
+                    const length = Math.sqrt(
+                        Math.pow(beam.end[0] - beam.start[0], 2) +
+                        Math.pow(beam.end[2] - beam.start[2], 2)
+                    );
+                    const beamGeometry = new THREE.CylinderGeometry(
+                        config.beamRadius,
+                        config.beamRadius,
+                        length,
+                        8
+                    );
+                    const beamMesh = new THREE.Mesh(beamGeometry, beamMaterial.clone());
+
+                    const midX = (beam.start[0] + beam.end[0]) / 2;
+                    const midZ = (beam.start[2] + beam.end[2]) / 2;
+                    beamMesh.position.set(midX, beam.start[1], midZ);
+
+                    if (beam.start[0] !== beam.end[0]) {
+                        beamMesh.rotation.z = Math.PI / 2;
+                    } else {
+                        beamMesh.rotation.x = Math.PI / 2;
+                    }
+
+                    scaffoldGroup.add(beamMesh);
+                    allComponents.push({ mesh: beamMesh, delay: componentIndex++ * 0.05, type: 'beam' });
+                });
+
+                // Add diagonal braces for stability
+                if (level > 0) {
+                    const braceConfigs = [
+                        {
+                            start: [-config.width / 2, yPos, -config.depth / 2],
+                            end: [config.width / 2, yPos + config.poleHeight, config.depth / 2]
+                        },
+                        {
+                            start: [config.width / 2, yPos, -config.depth / 2],
+                            end: [-config.width / 2, yPos + config.poleHeight, config.depth / 2]
+                        }
+                    ];
+
+                    braceConfigs.forEach(brace => {
+                        const dx = brace.end[0] - brace.start[0];
+                        const dy = brace.end[1] - brace.start[1];
+                        const dz = brace.end[2] - brace.start[2];
+                        const length = Math.sqrt(dx * dx + dy * dy + dz * dz);
+
+                        const braceGeometry = new THREE.CylinderGeometry(
+                            config.beamRadius * 0.7,
+                            config.beamRadius * 0.7,
+                            length,
+                            6
+                        );
+                        const braceMesh = new THREE.Mesh(braceGeometry, braceMaterial.clone());
+
+                        braceMesh.position.set(
+                            (brace.start[0] + brace.end[0]) / 2,
+                            (brace.start[1] + brace.end[1]) / 2,
+                            (brace.start[2] + brace.end[2]) / 2
+                        );
+
+                        const axis = new THREE.Vector3(0, 1, 0);
+                        const direction = new THREE.Vector3(dx, dy, dz).normalize();
+                        const quaternion = new THREE.Quaternion().setFromUnitVectors(axis, direction);
+                        braceMesh.setRotationFromQuaternion(quaternion);
+
+                        scaffoldGroup.add(braceMesh);
+                        allComponents.push({ mesh: braceMesh, delay: componentIndex++ * 0.05, type: 'brace' });
+                    });
                 }
+
+                // Create platform deck
+                const platformGeometry = new THREE.BoxGeometry(
+                    config.width,
+                    config.platformThickness,
+                    config.depth
+                );
+                const platform = new THREE.Mesh(platformGeometry, platformMaterial.clone());
+                platform.position.set(0, yPos + config.poleHeight, 0);
+                scaffoldGroup.add(platform);
+                allComponents.push({ mesh: platform, delay: componentIndex++ * 0.05, type: 'platform' });
             }
         }
 
-        // Add connecting lines
-        const lineMaterial = new THREE.LineBasicMaterial({
-            color: 0xf59e0b,
-            transparent: true,
-            opacity: 0.4
-        });
-
-        for (let i = 0; i < 20; i++) {
-            const points = [];
-            points.push(new THREE.Vector3(
-                (Math.random() - 0.5) * 8,
-                (Math.random() - 0.5) * 6,
-                (Math.random() - 0.5) * 6
-            ));
-            points.push(new THREE.Vector3(
-                (Math.random() - 0.5) * 8,
-                (Math.random() - 0.5) * 6,
-                (Math.random() - 0.5) * 6
-            ));
-            const lineGeometry = new THREE.BufferGeometry().setFromPoints(points);
-            const line = new THREE.Line(lineGeometry, lineMaterial);
-            scaffoldGroup.add(line);
-        }
-
+        createScaffolding();
         scene.add(scaffoldGroup);
-        camera.position.z = 8;
+        camera.position.set(6, 4, 8);
+        camera.lookAt(0, config.levels * config.poleHeight / 2, 0);
+
+        // Animation state
+        let animationTime = 0;
+        const animationDuration = 8; // seconds for full construction
+        const maxOpacity = 0.7;
 
         // Mouse movement effect
         let mouseX = 0;
         let mouseY = 0;
+        let targetRotationY = 0;
+        let targetRotationX = 0;
 
         document.addEventListener('mousemove', (e) => {
             mouseX = (e.clientX / window.innerWidth) * 2 - 1;
@@ -1697,12 +2037,30 @@
         function animate() {
             requestAnimationFrame(animate);
 
-            scaffoldGroup.rotation.x += 0.002;
-            scaffoldGroup.rotation.y += 0.003;
+            animationTime += 0.016; // ~60fps
+            const progress = (animationTime % animationDuration) / animationDuration;
 
-            // Respond to mouse
-            scaffoldGroup.rotation.x += mouseY * 0.01;
-            scaffoldGroup.rotation.y += mouseX * 0.01;
+            // Animate each component appearing
+            allComponents.forEach(component => {
+                const componentProgress = Math.max(0, Math.min(1, (progress - component.delay) * 3));
+
+                // Scale animation
+                const scale = 0.3 + (componentProgress * 0.7);
+                component.mesh.scale.set(scale, scale, scale);
+
+                // Opacity animation
+                component.mesh.material.opacity = componentProgress * maxOpacity;
+            });
+
+            // Smooth rotation based on mouse
+            targetRotationY = mouseX * 0.3;
+            targetRotationX = mouseY * 0.2;
+
+            scaffoldGroup.rotation.y += (targetRotationY - scaffoldGroup.rotation.y) * 0.05;
+            scaffoldGroup.rotation.x += (targetRotationX - scaffoldGroup.rotation.x) * 0.05;
+
+            // Slow continuous rotation
+            scaffoldGroup.rotation.y += 0.002;
 
             renderer.render(scene, camera);
         }
@@ -1711,9 +2069,12 @@
 
         // Handle resize
         window.addEventListener('resize', () => {
-            camera.aspect = window.innerWidth / window.innerHeight;
+            const width = container.clientWidth;
+            const height = container.clientHeight;
+
+            camera.aspect = width / height;
             camera.updateProjectionMatrix();
-            renderer.setSize(window.innerWidth, window.innerHeight);
+            renderer.setSize(width, height);
         });
 
         // Smooth scroll
@@ -1727,6 +2088,15 @@
             });
         });
     </script>
+
+    <!-- WhatsApp Floating Button -->
+    <div class="whatsapp-float">
+        <a href="https://wa.me/6562507275?text=Hi%20Sriram%20Scaffold,%20I%20would%20like%20to%20inquire%20about%20your%20scaffolding%20services."
+            class="whatsapp-button" target="_blank" rel="noopener noreferrer" aria-label="Chat on WhatsApp">
+            <i class="fab fa-whatsapp"></i>
+        </a>
+        <div class="whatsapp-tooltip">Chat with us on WhatsApp</div>
+    </div>
 </body>
 
 </html>
