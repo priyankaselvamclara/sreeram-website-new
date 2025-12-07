@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sriram Scaffold & Services - Trusted Scaffolding Solutions</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Arial', sans-serif; line-height: 1.6; color: #333; overflow-x: hidden; }
+    .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+
+    /* Header */
+    header { background: rgba(255,255,255,0.95); backdrop-filter: blur(10px); box-shadow: 0 2px 20px rgba(0,0,0,0.1); position: fixed; top: 0; width: 100%; z-index: 100; transform: translateY(-100%); animation: slideDown 1s 0.5s forwards; }
+    @keyframes slideDown { to { transform: translateY(0); } }
+    nav { display: flex; justify-content: space-between; align-items: center; padding: 1rem 0; }
+    .logo { font-size: 1.8rem; font-weight: bold; color: #1a5c38; }
+    .nav-links { display: flex; list-style: none; gap: 2rem; }
+    .nav-links a { text-decoration: none; color: #333; font-weight: 500; position: relative; transition: color 0.3s; }
+    .nav-links a::after { content: ''; position: absolute; bottom: -5px; left: 0; width: 0; height: 2px; background: #1a5c38; transition: width 0.3s; }
+    .nav-links a:hover::after { width: 100%; }
+    .nav-links a:hover { color: #1a5c38; }
+
+    /* Hero */
+    .hero { background: linear-gradient(135deg, rgba(26,92,56,0.8), rgba(0,50,30,0.9)), url('image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTIwMCIgaGVpZ2h0PSI4MDAiIHZpZXdCb3g9IjAgMCAxMjAwIDgwMCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHJlY3Qgd2lkdGg9IjEyMDAiIGhlaWdodD0iODAwIiBmaWxsPSIjMThhNWMyNCIvPgo8L3N2Zz4K') center/cover; color: white; text-align: center; padding: 150px 0 120px; position: relative; overflow: hidden; }
+    .hero::before { content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: linear-gradient(45deg, transparent 30%, rgba(255,255,255,0.1) 50%, transparent 70%); animation: shimmer 3s infinite; }
+    @keyframes shimmer { 0% { transform: translateX(-100%); } 100% { transform: translateX(100%); } }
+    .hero h1 { font-size: 3.5rem; margin-bottom: 1rem; opacity: 0; transform: translateY(50px); animation: fadeUp 1s 0.8s forwards; }
+    .hero p { font-size: 1.3rem; margin-bottom: 2.5rem; opacity: 0; transform: translateY(30px); animation: fadeUp 1s 1.2s forwards; max-width: 600px; margin-left: auto; margin-right: auto; }
+    .cta-btn { background: linear-gradient(45deg, #1a5c38, #22c55e); color: white; padding: 18px 40px; border: none; border-radius: 50px; font-size: 1.2rem; cursor: pointer; opacity: 0; transform: translateY(30px) scale(0.9); animation: fadeUpScale 1s 1.6s forwards; box-shadow: 0 10px 30px rgba(26,92,56,0.4); transition: all 0.3s; position: relative; overflow: hidden; }
+    .cta-btn::before { content: ''; position: absolute; top: 0; left: -100%; width: 100%; height: 100%; background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent); transition: left 0.5s; }
+    .cta-btn:hover::before { left: 100%; }
+    .cta-btn:hover { transform: scale(1.05); box-shadow: 0 15px 40px rgba(26,92,56,0.6); }
+    @keyframes fadeUp { to { opacity: 1; transform: translateY(0); } }
+    @keyframes fadeUpScale { to { opacity: 1; transform: translateY(0) scale(1); } }
+
+    /* PREMIUM CLIENTS SLIDER */
+    .clients-section { padding: 100px 0; background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%); position: relative; overflow: hidden; }
+    .clients-title { text-align: center; font-size: 2.8rem; margin-bottom: 4rem; color: #1a5c38; background: linear-gradient(45deg, #1a5c38, #22c55e); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; opacity: 0; transform: translateY(30px); transition: all 0.8s; position: relative; }
+    .clients-title::after { content: ''; position: absolute; bottom: -10px; left: 50%; transform: translateX(-50%); width: 80px; height: 4px; background: linear-gradient(90deg, #1a5c38, #22c55e); border-radius: 2px; }
+    .clients-slider { position: relative; height: 160px; display: flex; align-items: center; overflow: hidden; margin: 0 auto; max-width: 1200px; perspective: 1000px; }
+    .slider-track { display: flex; animation: scroll-clients 25s linear infinite; width: max-content; gap: 3rem; will-change: transform; }
+    .slider-track:hover { animation-play-state: paused; }
+    @keyframes scroll-clients { 0% { transform: translateX(0) rotateY(0deg); } 100% { transform: translateX(-50%) rotateY(5deg); } }
+    .client-logo { height: 120px; width: 240px; background: linear-gradient(145deg, rgba(255,255,255,0.95), rgba(248,250,252,0.9)); display: flex; align-items: center; justify-content: center; border-radius: 24px; box-shadow: 0 20px 40px rgba(0,0,0,0.1), 0 10px 20px rgba(0,0,0,0.06), inset 0 1px 0 rgba(255,255,255,0.8); font-size: 1.6rem; font-weight: 700; color: #1a5c38; flex-shrink: 0; transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94); position: relative; transform-style: preserve-3d; transform: rotateY(0deg) rotateX(5deg); border: 2px solid transparent; cursor: pointer; }
+    .client-logo::before { content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: linear-gradient(45deg, transparent, rgba(255,255,255,0.5), transparent); opacity: 0; transition: opacity 0.3s; border-radius: 24px; }
+    .client-logo:hover { transform: translateY(-20px) rotateY(0deg) rotateX(0deg) scale(1.08); box-shadow: 0 35px 70px rgba(26,92,56,0.3), 0 20px 40px rgba(0,0,0,0.15), inset 0 1px 0 rgba(255,255,255,0.9); border-color: rgba(26,92,56,0.2); }
+    .client-logo:hover::before { opacity: 1; }
+    .slider-nav { display: flex; justify-content: center; gap: 12px; margin-top: 3rem; }
+    .nav-dot { width: 14px; height: 14px; border-radius: 50%; background: rgba(26,92,56,0.3); cursor: pointer; transition: all 0.3s; position: relative; }
+    .nav-dot.active, .nav-dot:hover { background: linear-gradient(45deg, #1a5c38, #22c55e); transform: scale(1.3); box-shadow: 0 0 20px rgba(26,92,56,0.4); }
+
+    /* Services */
+    .services { padding: 100px 0; background: #f8f9fa; }
+    .section-title { text-align: center; font-size: 2.8rem; margin-bottom: 4rem; color: #1a5c38; opacity: 0; animation: fadeInUp 1s forwards; }
+    @keyframes fadeInUp { to { opacity: 1; transform: translateY(0); } }
+    .services-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 2.5rem; }
+    .service-card { background: white; padding: 2.5rem; border-radius: 20px; box-shadow: 0 10px 40px rgba(0,0,0,0.08); text-align: center; opacity: 0; transform: translateY(50px); transition: all 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94); position: relative; overflow: hidden; }
+    .service-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 4px; background: linear-gradient(90deg, #1a5c38, #22c55e, #1a5c38); transform: scaleX(0); transition: transform 0.5s; }
+    .service-card.animate { opacity: 1; transform: translateY(0); }
+    .service-card:hover::before { transform: scaleX(1); }
+    .service-card:hover { transform: translateY(-15px) scale(1.02); box-shadow: 0 25px 60px rgba(0,0,0,0.15); }
+    .service-icon { font-size: 4rem; margin-bottom: 1.5rem; display: block; filter: drop-shadow(0 10px 20px rgba(26,92,56,0.3)); }
+    .service-card h3 { font-size: 1.6rem; margin-bottom: 1rem; color: #1a5c38; }
+
+    /* Stats */
+    .stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 2rem; margin: 80px 0; text-align: center; }
+    .stat { opacity: 0; transform: scale(0.8); transition: all 1s ease; }
+    .stat.animate { opacity: 1; transform: scale(1); }
+    .stat-number { font-size: 3rem; font-weight: bold; color: #1a5c38; display: block; }
+    .stat-label { font-size: 1rem; color: #666; }
+
+    /* INTERACTIVE CERTIFICATIONS - Click to Open */
+    .certifications { 
+      padding: 100px 0; 
+      background: linear-gradient(135deg, #1a5c38, #22c55e); 
+      color: white; 
+      position: relative;
+    }
+    .certs-grid { 
+      display: grid; 
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); 
+      gap: 2rem; 
+      margin-top: 3rem; 
+    }
+    .cert-item { 
+      background: rgba(255,255,255,0.1); 
+      padding: 2rem; 
+      border-radius: 20px; 
+      backdrop-filter: blur(15px); 
+      border: 2px solid rgba(255,255,255,0.2); 
+      transform: translateY(30px); 
+      opacity: 0; 
+      transition: all 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94); 
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+    }
+    .cert-item::before {
+      content: ''; 
+      position: absolute; 
+      top: 0; left: 0; right: 0; bottom: 0; 
+      background: linear-gradient(45deg, transparent, rgba(255,255,255,0.2), transparent); 
+      opacity: 0; 
+      transition: opacity 0.4s;
+      z-index: 1;
+    }
+    .cert-item.animate { transform: translateY(0); opacity: 1; }
+    .cert-item:hover { 
+      transform: translateY(-15px) scale(1.05); 
+      border-color: rgba(255,255,255,0.4);
+      box-shadow: 0 25px 50px rgba(26,92,56,0.4);
+    }
+    .cert-item:hover::before { opacity: 1; }
+    .cert-item.active { 
+      transform: scale(1.1) !important; 
+      box-shadow: 0 30px 60px rgba(26,92,56,0.6) !important;
+      border-color: #fff !important;
+    }
+
+    /* CERTIFICATE MODAL POPUP */
+    .cert-modal {
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(0,0,0,0.8);
+      backdrop-filter: blur(10px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      visibility: hidden;
+      z-index: 1000;
+      transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+    .cert-modal.show {
+      opacity: 1;
+      visibility: visible;
+    }
+    .cert-modal-content {
+      background: linear-gradient(145deg, rgba(255,255,255,0.95), rgba(248,250,252,0.98));
+      border-radius: 24px;
+      padding: 3rem;
+      max-width: 500px;
+      width: 90%;
+      max-height: 80vh;
+      overflow-y: auto;
+      transform: scale(0.7) rotateY(30deg);
+      opacity: 0;
+      transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+      box-shadow: 0 40px 100px rgba(0,0,0,0.4);
+      position: relative;
+      border: 2px solid rgba(255,255,255,0.3);
+    }
+    .cert-modal.show .cert-modal-content {
+      transform: scale(1) rotateY(0deg);
+      opacity: 1;
+    }
+    .cert-modal-header {
+      text-align: center;
+      margin-bottom: 2rem;
+      color: #1a5c38;
+    }
+    .cert-modal-header h3 {
+      font-size: 2rem;
+      margin-bottom: 0.5rem;
+      background: linear-gradient(45deg, #1a5c38, #22c55e);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .cert-modal-body {
+      font-size: 1.1rem;
+      line-height: 1.7;
+      color: #333;
+    }
+    .cert-close {
+      position: absolute;
+      top: 1.5rem;
+      right: 1.5rem;
+      background: rgba(26,92,56,0.8);
+      color: white;
+      border: none;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      cursor: pointer;
+      font-size: 1.2rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s;
+    }
+    .cert-close:hover {
+      background: #22c55e;
+      transform: scale(1.1);
+    }
+
+    /* Contact */
+    .contact { padding: 100px 0; }
+    .contact-content { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: start; }
+    .contact-form { background: linear-gradient(135deg, #f8f9fa, #e9ecef); padding: 2.5rem; border-radius: 20px; opacity: 0; transform: translateX(-50px); transition: all 1s; }
+    .contact-form.animate { opacity: 1; transform: translateX(0); }
+    .form-group { margin-bottom: 1.8rem; }
+    .form-group input, .form-group textarea { width: 100%; padding: 15px 20px; border: 2px solid #e9ecef; border-radius: 12px; font-family: inherit; transition: all 0.3s; background: white; }
+    .form-group input:focus, .form-group textarea:focus { border-color: #1a5c38; outline: none; transform: scale(1.02); box-shadow: 0 10px 25px rgba(26,92,56,0.1); }
+
+    /* Footer */
+    footer { background: #1a5c38; color: white; text-align: center; padding: 2.5rem 0; }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .nav-links { display: none; }
+      .hero h1 { font-size: 2.5rem; }
+      .contact-content { grid-template-columns: 1fr; }
+      .stats { grid-template-columns: repeat(2, 1fr); }
+      .client-logo { height: 90px; width: 180px; font-size: 1.3rem; }
+      .clients-slider { height: 120px; }
+      .cert-modal-content { padding: 2rem; margin: 1rem; }
+    }
+
+    /* Animations */
+    .animate-on-scroll { opacity: 0; transform: translateY(50px); transition: all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94); }
+    .animate-on-scroll.visible { opacity: 1; transform: translateY(0); }
+  </style>
+</head>
+<body>
+  <!-- Header -->
+  <header>
+    <nav class="container">
+      <div class="logo">Sriram Scaffold</div>
+      <ul class="nav-links">
+        <li><a href="#home">Home</a></li>
+        <li><a href="#clients">Clients</a></li>
+        <li><a href="#services">Services</a></li>
+        <li><a href="#about">About</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- Hero -->
+  <section id="home" class="hero">
+    <div class="container">
+      <h1>Trusted Scaffolding & Engineering Solutions</h1>
+      <p>Serving Singapore's leading construction firms with BCA & MOM accredited scaffolding services.</p>
+      <button class="cta-btn">Get Free Quote →</button>
+    </div>
+  </section>
+
+  <!-- Clients Slider -->
+  <section id="clients" class="clients-section">
+    <div class="container">
+      <h2 class="clients-title animate-on-scroll">Trusted By Industry Leaders</h2>
+      <div class="clients-slider">
+        <div class="slider-track">
+          <div class="client-logo">SHELL</div><div class="client-logo">EXXON</div><div class="client-logo">SINGAPORE PETRO</div>
+          <div class="client-logo">MARINE & OFFSHORE</div><div class="client-logo">POWERGAS</div><div class="client-logo">BCA APPROVED</div>
+          <div class="client-logo">SHELL</div><div class="client-logo">EXXON</div><div class="client-logo">SINGAPORE PETRO</div>
+          <div class="client-logo">MARINE & OFFSHORE</div><div class="client-logo">POWERGAS</div><div class="client-logo">BCA APPROVED</div>
+        </div>
+      </div>
+      <div class="slider-nav">
+        <div class="nav-dot active"></div>
+        <div class="nav-dot"></div>
+        <div class="nav-dot"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Services -->
+  <section id="services" class="services">
+    <div class="container">
+      <h2 class="section-title animate-on-scroll">Our Core Services</h2>
+      <div class="services-grid">
+        <div class="service-card animate-on-scroll">
+          <div class="service-icon">🏗️</div>
+          <h3>Birdcage & Perimeter Scaffold</h3>
+          <p>Complete scaffolding solutions for industrial, marine and high-rise projects.</p>
+        </div>
+        <div class="service-card animate-on-scroll">
+          <div class="service-icon">🔧</div>
+          <h3>Cantilever & Hanging Scaffold</h3>
+          <p>Specialized access solutions for complex structures and challenging environments.</p>
+        </div>
+        <div class="service-card animate-on-scroll">
+          <div class="service-icon">🛡️</div>
+          <h3>Safety & Compliance</h3>
+          <p>MOM-approved systems with certified supervisors and zero-incident record.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Stats -->
+  <section class="stats container animate-on-scroll" id="about">
+    <div class="stat"><span class="stat-number" data-target="15">0</span><span class="stat-label">Years Experience</span></div>
+    <div class="stat"><span class="stat-number" data-target="500">0</span><span class="stat-label">Projects Completed</span></div>
+    <div class="stat"><span class="stat-number" data-target="9.91">0</span><span class="stat-label">Million Safe Hours</span></div>
+    <div class="stat"><span class="stat-number" data-target="47">0</span><span class="stat-label">Safety Awards</span></div>
+  </section>
+
+  <!-- INTERACTIVE CERTIFICATIONS -->
+  <section id="certifications" class="certifications">
+    <div class="container">
+      <h2 class="section-title animate-on-scroll" style="color: white;">Our Certifications</h2>
+      <div class="certs-grid">
+        <div class="cert-item animate-on-scroll" data-cert="bca">
+          <div style="font-size: 2rem; margin-bottom: 1rem;">🏛️</div>
+          <h4>BCA Accredited</h4>
+          <p>Building and Construction Authority approved scaffolding contractor</p>
+        </div>
+        <div class="cert-item animate-on-scroll" data-cert="mom">
+          <div style="font-size: 2rem; margin-bottom: 1rem;">👷</div>
+          <h4>MOM Approved</h4>
+          <p>Ministry of Manpower certified for workplace safety</p>
+        </div>
+        <div class="cert-item animate-on-scroll" data-cert="bizsafe">
+          <div style="font-size: 2rem; margin-bottom: 1rem;">⭐</div>
+          <h4>BizSAFE Star</h4>
+          <p>WSH Council recognition for safety management excellence</p>
+        </div>
+        <div class="cert-item animate-on-scroll" data-cert="iso">
+          <div style="font-size: 2rem; margin-bottom: 1rem;">📜</div>
+          <h4>ISO 45001:2018</h4>
+          <p>International standard for occupational health & safety</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CERTIFICATE MODAL -->
+  <div class="cert-modal" id="certModal">
+    <div class="cert-modal-content">
+      <button class="cert-close" onclick="closeCertModal()">&times;</button>
+      <div class="cert-modal-header" id="certTitle">
+        <h3>Loading...</h3>
+      </div>
+      <div class="cert-modal-body" id="certBody">
+        Click on any certification above to view details.
+      </div>
+    </div>
+  </div>
+
+  <!-- Contact -->
+  <section id="contact" class="contact">
+    <div class="container">
+      <h2 class="section-title animate-on-scroll">Get Your Quote Today</h2>
+      <div class="contact-content">
+        <form class="contact-form animate-on-scroll">
+          <div class="form-group"><input type="text" placeholder="Company Name" required></div>
+          <div class="form-group"><input type="email" placeholder="Email" required></div>
+          <div class="form-group"><input type="tel" placeholder="Phone"></div>
+          <div class="form-group"><textarea rows="5" placeholder="Project scope, timeline, location..."></textarea></div>
+          <button type="submit" class="cta-btn">Request Quote</button>
+        </form>
+        <div class="contact-info animate-on-scroll" style="opacity: 0; transform: translateX(50px); transition: all 1s;">
+          <h3 style="color: #1a5c38;">Quick Contact</h3>
+          <p><strong>📞 +65 6250 7275</strong></p>
+          <p><strong>✉️ info@sriramscaffold.com</strong></p>
+          <p><strong>📍 Vision Exchange #09-15<br>2 Venture Drive, Singapore 608526</strong></p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="container">
+      <p>&copy; 2025 Sriram Scaffold & Services Pte Ltd. ✅ CLICK CERTIFICATES TO VIEW![web:136][web:137]</p>
+    </div>
+  </footer>
+
+  <script>
+    // SCROLL TO TOP ON RELOAD
+    if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+    window.onbeforeunload = () => window.scrollTo(0, 0);
+    window.scrollTo(0, 0);
+
+    // Smooth scrolling
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', e => {
+        e.preventDefault();
+        document.querySelector(anchor.getAttribute('href')).scrollIntoView({ behavior: 'smooth' });
+      });
+    });
+
+    // Scroll animations
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) entry.target.classList.add('visible');
+      });
+    }, { threshold: 0.1 });
+    document.querySelectorAll('.animate-on-scroll').forEach(el => observer.observe(el));
+
+    // Counter animation
+    function animateCounters() {
+      document.querySelectorAll('.stat-number').forEach(counter => {
+        const target = parseFloat(counter.getAttribute('data-target'));
+        const increment = target / 100;
+        let current = 0;
+        const updateCounter = () => {
+          if (current < target) {
+            current += increment;
+            counter.textContent = Math.ceil(current);
+            requestAnimationFrame(updateCounter);
+          } else counter.textContent = target;
+        };
+        if (counter.closest('.stat').classList.contains('animate')) updateCounter();
+      });
+    }
+    const statsObserver = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          document.querySelectorAll('.stat').forEach(stat => stat.classList.add('animate'));
+          animateCounters();
+        }
+      });
+    });
+    statsObserver.observe(document.getElementById('about'));
+
+    // CERTIFICATE MODAL FUNCTIONALITY
+    const certModal = document.getElementById('certModal');
+    const certItems = document.querySelectorAll('.cert-item');
+
+    const certData = {
+      bca: { title: '🏛️ BCA Accredited', body: 'Sriram Scaffold & Services Pte Ltd is fully accredited by Singapore\'s <strong>Building and Construction Authority (BCA)</strong> as a Registered Scaffolding Contractor (RSC). Registration No: <strong>SC/22/XXXXX</strong><br><br>Valid for all classes of scaffolding works including birdcage, cantilever, hanging, and temporary works platforms.' },
+      mom: { title: '👷 MOM Approved', body: 'Certified by <strong>Ministry of Manpower (MOM)</strong> under the <strong>Factories (Scaffolds) Regulations</strong>. All supervisors hold <strong>WSQ Supervise Safe Scaffolding Operations (SSSO)</strong> certification.<br><br>Contractor Registration No: <strong>29X-XXXXXXX-A</strong>' },
+      bizsafe: { title: '⭐ BizSAFE Star', body: '<strong>BizSAFE Level Star</strong> awarded by Workplace Safety and Health (WSH) Council. Recognizes our comprehensive safety management system and zero LTA (Lost Time Accident) record over 9.91 million man-hours.<br><br>Level Star validity: <strong>2024-2027</strong>' },
+      iso: { title: '📜 ISO 45001:2018', body: 'Certified to <strong>ISO 45001:2018 Occupational Health & Safety Management Systems</strong> by accredited certification body.<br><br>Certificate No: <strong>SGX/ISO45001/XXXXX</strong><br>Scope: Scaffolding design, erection, alteration, and dismantling services<br>Valid till: <strong>December 2026</strong>' }
+    };
+
+    certItems.forEach(item => {
+      item.addEventListener('click', () => {
+        const certType = item.getAttribute('data-cert');
+        document.getElementById('certTitle').innerHTML = `<h3>${certData[certType].title}</h3>`;
+        document.getElementById('certBody').innerHTML = certData[certType].body;
+        
+        // Animate clicked item
+        document.querySelectorAll('.cert-item').forEach(el => el.classList.remove('active'));
+        item.classList.add('active');
+        
+        // Show modal
+        certModal.classList.add('show');
+      });
+    });
+
+    function closeCertModal() {
+      certModal.classList.remove('show');
+      document.querySelectorAll('.cert-item').forEach(el => el.classList.remove('active'));
+    }
+
+    // Close modal on overlay click
+    certModal.addEventListener('click', (e) => {
+      if (e.target === certModal) closeCertModal();
+    });
+
+    // Form handling
+    document.querySelector('form').addEventListener('submit', function(e) {
+      e.preventDefault();
+      this.style.transform = 'scale(0.98)';
+      setTimeout(() => {
+        alert('Quote request sent! We\'ll respond within 24 hours.');
+        this.style.transform = '';
+      }, 300);
+    });
+
+    // Slider navigation dots
+    document.querySelectorAll('.nav-dot').forEach((dot, index) => {
+      dot.addEventListener('click', () => {
+        document.querySelector('.nav-dot.active').classList.remove('active');
+        dot.classList.add('active');
+      });
+    });
+  </script>
+</body>
+</html>

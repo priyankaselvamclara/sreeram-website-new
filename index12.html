@@ -1,0 +1,712 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Premier Construction & Engineering Solutions</title>
+    <!-- Load Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Load Fonts: Teko (Headings) and Roboto (Body) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Teko:wght@400;500;700&family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <!-- Load Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <style>
+        /* Configure Tailwind to use the custom fonts */
+        :root {
+            --color-primary: #f59e0b; /* Amber 500 */
+            --color-secondary: #0f172a; /* Slate 900 custom dark */
+        }
+        
+        body {
+            font-family: 'Roboto', sans-serif;
+            color: #cbd5e1; /* Slate 300 */
+            background-color: #1a1a1a;
+            overflow-x: hidden;
+        }
+
+        /* Headings Font - Industrial/Strong */
+        .font-teko {
+            font-family: 'Teko', sans-serif;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #f8fafc; /* White */
+        }
+
+        /* Background Accents - Abstract Construction Lines (Retained from original CSS) */
+        .industrial-bg {
+            position: relative;
+            background-color: var(--color-secondary);
+        }
+        .industrial-bg::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                linear-gradient(45deg, transparent 49%, var(--color-primary) 49%, var(--color-primary) 51%, transparent 51%) 0 0 / 100px 100px,
+                linear-gradient(-45deg, transparent 49%, #334155 49%, #334155 51%, transparent 51%) 0 0 / 100px 100px;
+            opacity: 0.03;
+            pointer-events: none;
+            z-index: 0;
+        }
+        .content-z {
+            position: relative;
+            z-index: 10;
+        }
+
+        /* Utility for Section Headers */
+        .section-title {
+            font-size: 2.5rem; /* 40px */
+            line-height: 1.1;
+            border-left: 8px solid var(--color-primary);
+            padding-left: 1.25rem;
+            margin-bottom: 2.5rem; /* 40px */
+        }
+        @media (min-width: 768px) {
+             .section-title {
+                font-size: 3.5rem; /* 56px */
+            }
+        }
+
+        /* List Styling (Retained from original CSS) */
+        .styled-list li {
+            margin-bottom: 15px;
+            padding-left: 30px;
+            position: relative;
+            font-size: 18px;
+        }
+        .styled-list li::before {
+            content: '\f058'; /* FontAwesome check-circle */
+            font-family: 'Font Awesome 6 Free';
+            font-weight: 900;
+            position: absolute;
+            left: 0;
+            color: var(--color-primary);
+        }
+
+        /* --- CLIENT SLIDING ANIMATION (NEW) --- */
+        @keyframes slide {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); } /* Slides exactly half way (past the first set of logos) */
+        }
+
+        .logo-slide-container {
+            overflow: hidden; /* Hides the duplicated logos until they slide in */
+        }
+        
+        .logo-slide-track {
+            display: flex;
+            width: 200%; /* Important: Must be double the width of the content area */
+            animation: slide 30s linear infinite; /* Control speed here */
+        }
+
+        .logo-slide-track:hover {
+            animation-play-state: paused; /* Pause on hover */
+        }
+
+        .logo-item {
+            /* Make each item take up equal space in the doubled track */
+            width: calc(100% / 12); /* 6 logos shown * 2 = 12 total spaces */
+            flex-shrink: 0; 
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0 1rem;
+        }
+        
+        .logo-img {
+            filter: grayscale(100%) brightness(150%);
+            opacity: 0.6;
+            transition: opacity 0.3s, filter 0.3s;
+            max-height: 50px;
+            width: auto;
+        }
+        .logo-img:hover {
+            filter: grayscale(0%) brightness(100%);
+            opacity: 1;
+        }
+
+        /* --- GENERAL ANIMATION STYLES (Existing) --- */
+
+        /* Initial state for elements that should animate into view */
+        .animate-in {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        }
+
+        /* Final state when visible */
+        .animate-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Bar Chart Animation */
+        .bar-container {
+            height: 100%;
+            background-color: #334155; /* Slate 700 */
+        }
+        .bar-fill {
+            height: 100%;
+            background-color: var(--color-primary);
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            padding-right: 15px;
+            color: var(--color-secondary);
+            font-weight: bold;
+            font-family: 'Roboto', sans-serif;
+            width: 0%; /* Start width at 0% for animation */
+            transition: width 1.5s cubic-bezier(0.25, 0.46, 0.45, 0.94); /* Easing transition */
+        }
+        .bar-fill.fill-active {
+            /* The width property will be set by JS on visibility */
+        }
+
+        /* Image Wrapper Accent */
+        .image-accent-wrap {
+            border: 2px solid #334155;
+            position: relative;
+            overflow: hidden;
+        }
+        .image-accent-wrap::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            width: 30px;
+            height: 30px;
+            background-color: var(--color-primary);
+            clip-path: polygon(100% 0, 0% 100%, 100% 100%);
+        }
+        @media (min-width: 768px) {
+            .image-accent-wrap::after {
+                width: 60px;
+                height: 60px;
+            }
+        }
+        
+    </style>
+</head>
+<body class="bg-gray-900">
+
+    <!-- Header / Navigation -->
+    <header class="fixed top-0 left-0 w-full bg-slate-900/90 backdrop-blur-md z-50 shadow-xl border-b border-amber-500/20">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
+            <a href="#hero" class="text-3xl font-teko tracking-widest text-white hover:text-amber-500 transition duration-300">
+                PRO-BUILD <span class="text-amber-500">ENGINEERING</span>
+            </a>
+            <nav class="hidden md:flex space-x-6 font-roboto font-medium text-lg">
+                <a href="#about" class="text-slate-300 hover:text-amber-500 transition">About</a>
+                <a href="#services" class="text-slate-300 hover:text-amber-500 transition">Services</a>
+                <a href="#projects" class="text-slate-300 hover:text-amber-500 transition">Projects</a>
+                <a href="#safety" class="text-slate-300 hover:text-amber-500 transition">Safety</a>
+                <a href="#contact" class="px-6 py-2 bg-amber-500 text-slate-900 rounded-lg hover:bg-amber-600 transition shadow-lg font-teko text-xl transform hover:scale-105">CONTACT</a>
+            </nav>
+            <!-- Mobile Menu Placeholder (Not implemented fully, but structure included for responsiveness) -->
+            <button class="md:hidden text-amber-500 text-2xl">
+                <i class="fa-solid fa-bars"></i>
+            </button>
+        </div>
+    </header>
+
+    <main class="pt-20">
+
+        <!-- 1. Hero Section -->
+        <section id="hero" class="h-screen flex items-center bg-cover bg-center" 
+            style="background-image: url('http://googleusercontent.com/image_collection/image_retrieval/12987412854937250694');">
+            
+            <div class="absolute inset-0 bg-slate-900/80"></div> 
+            
+            <div class="max-w-7xl mx-auto px-6 sm:px-8 lg:px-10 content-z w-full">
+                <div class="md:w-3/4 lg:w-1/2 animate-in" data-delay="0.1">
+                    <h1 class="text-7xl sm:text-8xl lg:text-9xl font-teko text-white mb-6 leading-none">
+                        BUILDING <span class="text-amber-500">TOMORROW</span>
+                    </h1>
+                    <p class="text-2xl sm:text-3xl text-white border-l-4 border-amber-500 pl-4">
+                        Premier Construction & Engineering Solutions. Safety. Precision. Excellence.
+                    </p>
+                    <a href="#contact" class="mt-10 inline-block px-8 py-3 bg-amber-500 text-slate-900 font-teko text-2xl rounded-lg shadow-xl hover:bg-amber-600 transition transform hover:scale-105">
+                        Start Your Project Today
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- 2. About Us -->
+        <section id="about" class="py-24 industrial-bg">
+            <div class="max-w-7xl mx-auto px-6 sm:px-8 lg:px-10 content-z">
+                <h2 class="font-teko section-title animate-in" data-delay="0.1">ENGINEERING MASTERY</h2>
+                <div class="grid md:grid-cols-2 gap-12 items-center">
+                    <div class="order-2 md:order-1 animate-in" data-delay="0.3">
+                        <h3 class="text-3xl font-teko text-white mb-4">PRECISION IN EVERY DETAIL</h3>
+                        <p class="text-lg mb-6">
+                            We are a multidisciplinary construction firm dedicated to tackling the most complex engineering challenges. From the ground up, our team ensures every structural element meets rigorous global standards.
+                        </p>
+                        <ul class="styled-list">
+                            <li>Over 25 years of industry experience.</li>
+                            <li>Licensed Professional Engineers on every site.</li>
+                            <li>Commitment to sustainable building practices.</li>
+                        </ul>
+                    </div>
+                    <div class="order-1 md:order-2 animate-in" data-delay="0.5">
+                        <div class="image-accent-wrap h-72 md:h-96">
+                            <img src="http://googleusercontent.com/image_collection/image_retrieval/10597505661969454855" alt="Engineer reviewing blueprints on site" class="w-full h-full object-cover transition duration-500 hover:scale-105">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 3. Core Services -->
+        <section id="services" class="py-24 bg-slate-900">
+            <div class="max-w-7xl mx-auto px-6 sm:px-8 lg:px-10">
+                <h2 class="font-teko section-title animate-in" data-delay="0.1">OUR EXPERTISE</h2>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <!-- Service Card 1 -->
+                    <div class="p-8 bg-slate-800 border-l-4 border-amber-500 shadow-xl transition duration-300 hover:bg-slate-700 hover:shadow-2xl animate-in" data-delay="0.3">
+                        <div class="text-amber-500 mb-4 text-4xl"><i class="fa-solid fa-helmet-safety"></i></div>
+                        <h3 class="text-2xl font-teko text-white mb-2">SITE SAFETY</h3>
+                        <p class="text-slate-300">Implementation of rigorous safety protocols and risk management strategies to ensure a zero-accident environment for all personnel.</p>
+                    </div>
+                    <!-- Service Card 2 -->
+                    <div class="p-8 bg-slate-800 border-l-4 border-amber-500 shadow-xl transition duration-300 hover:bg-slate-700 hover:shadow-2xl animate-in" data-delay="0.5">
+                        <div class="text-amber-500 mb-4 text-4xl"><i class="fa-solid fa-layer-group"></i></div>
+                        <h3 class="text-2xl font-teko text-white mb-2">SCAFFOLDING</h3>
+                        <p class="text-slate-300">Design and erection of complex scaffolding systems for high-rise access, industrial maintenance, and temporary support structures.</p>
+                    </div>
+                    <!-- Service Card 3 -->
+                    <div class="p-8 bg-slate-800 border-l-4 border-amber-500 shadow-xl transition duration-300 hover:bg-slate-700 hover:shadow-2xl animate-in" data-delay="0.7">
+                        <div class="text-amber-500 mb-4 text-4xl"><i class="fa-solid fa-city"></i></div>
+                        <h3 class="text-2xl font-teko text-white mb-2">URBAN PLANNING</h3>
+                        <p class="text-slate-300">Comprehensive civil engineering and urban development services, transforming city skylines with modern, efficient structures.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 4. Projects Section -->
+        <section id="projects" class="py-24 industrial-bg">
+            <div class="max-w-7xl mx-auto px-6 sm:px-8 lg:px-10 content-z">
+                <h2 class="font-teko section-title animate-in" data-delay="0.1">FEATURED PROJECTS</h2>
+
+                <!-- Project Spotlight 1: Skyline Tower -->
+                <div class="grid md:grid-cols-2 bg-slate-900 border border-amber-500/30 shadow-2xl mb-12 animate-in" data-delay="0.3">
+                    <div class="p-8 lg:p-12 order-2 md:order-1">
+                        <h3 class="text-3xl font-teko text-amber-500 mb-4">SKYLINE TOWER</h3>
+                        <p class="text-lg mb-6">A flagship 50-story glass facade project in the heart of the financial district. This project required precision lifting and specialized scaffolding to navigate the dense urban environment.</p>
+                        <ul class="styled-list">
+                            <li><strong>Height:</strong> 250 Meters</li>
+                            <li><strong>Duration:</strong> 24 Months</li>
+                            <li><strong>Scope:</strong> Facade & Structural Steel</li>
+                        </ul>
+                    </div>
+                    <div class="order-1 md:order-2">
+                        <img class="w-full h-full object-cover max-h-96 md:max-h-full transition duration-500 hover:scale-105" 
+                             src="http://googleusercontent.com/image_collection/image_retrieval/11712020741661013526" alt="Scaffolding on modern glass building">
+                    </div>
+                </div>
+
+                <!-- Project Spotlight 2: Apex Logistics Hub -->
+                <div class="grid md:grid-cols-2 bg-slate-900 border border-amber-500/30 shadow-2xl animate-in" data-delay="0.5">
+                    <div class="p-8 lg:p-12">
+                        <h3 class="text-3xl font-teko text-amber-500 mb-4">APEX LOGISTICS HUB</h3>
+                        <p class="text-lg mb-6">A sprawling 500,000 sq. ft. automated logistics facility. We delivered the project 3 months ahead of schedule using modular steel construction techniques.</p>
+                        <ul class="styled-list">
+                            <li><strong>Area:</strong> 500,000 sq. ft.</li>
+                            <li><strong>Focus:</strong> Sustainable Materials</li>
+                            <li><strong>Award:</strong> Green Builder 2024</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <img class="w-full h-full object-cover max-h-96 md:max-h-full transition duration-500 hover:scale-105" 
+                             src="http://googleusercontent.com/image_collection/image_retrieval/4866548424901934401" alt="Modern industrial factory exterior">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 5. Gallery -->
+        <section id="gallery" class="py-24 bg-slate-900">
+            <div class="max-w-7xl mx-auto px-6 sm:px-8 lg:px-10">
+                <h2 class="font-teko section-title animate-in" data-delay="0.1">PROJECT GALLERY</h2>
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <!-- Image Tile 1 -->
+                    <div class="bg-slate-800 p-4 border border-slate-700 shadow-lg hover:shadow-amber-500/20 transition duration-300 animate-in" data-delay="0.3">
+                        <div class="h-64 image-accent-wrap mb-4">
+                            <img src="http://googleusercontent.com/image_collection/image_retrieval/17057440675004247106" alt="Welding steel structure" class="w-full h-full object-cover">
+                        </div>
+                        <h3 class="text-xl font-teko text-white mb-1">Structural Steel</h3>
+                        <p class="text-sm text-slate-400">Precision welding for core framework stability.</p>
+                    </div>
+                    <!-- Image Tile 2 -->
+                    <div class="bg-slate-800 p-4 border border-slate-700 shadow-lg hover:shadow-amber-500/20 transition duration-300 animate-in" data-delay="0.5">
+                        <div class="h-64 image-accent-wrap mb-4">
+                            <img src="http://googleusercontent.com/image_collection/image_retrieval/7057830819494708492" alt="Tower crane at sunset" class="w-full h-full object-cover">
+                        </div>
+                        <h3 class="text-xl font-teko text-white mb-1">Heavy Lifting</h3>
+                        <p class="text-sm text-slate-400">Deploying heavy-lift cranes for modular units.</p>
+                    </div>
+                    <!-- Image Tile 3 -->
+                    <div class="bg-slate-800 p-4 border border-slate-700 shadow-lg hover:shadow-amber-500/20 transition duration-300 animate-in" data-delay="0.7">
+                        <div class="h-64 image-accent-wrap mb-4">
+                            <img src="http://googleusercontent.com/image_collection/image_retrieval/11254751753169597614" alt="Safety gear close up" class="w-full h-full object-cover">
+                        </div>
+                        <h3 class="text-xl font-teko text-white mb-1">Safety Compliance</h3>
+                        <p class="text-sm text-slate-400">Strict adherence to PPE and safety regulations.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 6. Safety Record & Stats -->
+        <section id="safety" class="py-24 industrial-bg text-center">
+            <div class="max-w-7xl mx-auto px-6 sm:px-8 lg:px-10 content-z">
+                <h2 class="font-teko section-title mx-auto animate-in" data-delay="0.1" style="border-left: 0; padding-left: 0;">UNMATCHED SAFETY RECORD</h2>
+                <div class="flex flex-col md:flex-row justify-around gap-12 mt-12">
+                    <!-- Stat 1 -->
+                    <div class="p-6 animate-in" data-delay="0.3">
+                        <div class="text-7xl sm:text-8xl lg:text-9xl font-teko font-bold text-amber-500 leading-none counter" data-target="2500000" data-speed="2500">0</div>
+                        <div class="text-2xl font-teko text-white mt-2 tracking-widest">Man-Hours<br>Accident Free</div>
+                    </div>
+                    <!-- Stat 2 -->
+                    <div class="p-6 animate-in" data-delay="0.5">
+                        <div class="text-7xl sm:text-8xl lg:text-9xl font-teko font-bold text-amber-500 leading-none counter" data-target="100" data-suffix="%" data-speed="1500">0</div>
+                        <div class="text-2xl font-teko text-white mt-2 tracking-widest">Compliance<br>Rate</div>
+                    </div>
+                    <!-- Stat 3 -->
+                    <div class="p-6 animate-in" data-delay="0.7">
+                        <div class="text-7xl sm:text-8xl lg:text-9xl font-teko font-bold text-amber-500 leading-none counter" data-target="0" data-speed="1000">0</div>
+                        <div class="text-2xl font-teko text-white mt-2 tracking-widest">Stop-Work<br>Orders</div>
+                    </div>
+                </div>
+                <p class="text-xl text-slate-300 mt-12 max-w-4xl mx-auto animate-in" data-delay="0.9">
+                    Our "Safety First" culture is not just a slogan; it's the foundation of our operational success. We invest heavily in continuous training and advanced monitoring equipment.
+                </p>
+            </div>
+        </section>
+
+        <!-- 7. Technical Precision -->
+        <section id="technology" class="py-24 bg-slate-900">
+            <div class="max-w-7xl mx-auto px-6 sm:px-8 lg:px-10">
+                <h2 class="font-teko section-title animate-in" data-delay="0.1">TECHNICAL PRECISION</h2>
+                <div class="grid md:grid-cols-2 gap-12 items-center">
+                    <div class="order-2 md:order-1 animate-in" data-delay="0.3">
+                        <h3 class="text-3xl font-teko text-white mb-4">ADVANCED SURVEYING</h3>
+                        <p class="text-lg mb-4">We utilize state-of-the-art theodolites and drone mapping technology to ensure site topography is measured to the millimeter. This data drives our BIM models, preventing clashes and ensuring seamless execution.</p>
+                        <p class="text-lg">From initial ground breaking to final topping off, our technical teams monitor structural integrity in real-time.</p>
+                    </div>
+                    <div class="order-1 md:order-2 animate-in" data-delay="0.5">
+                        <div class="image-accent-wrap h-72 md:h-96">
+                            <img src="http://googleusercontent.com/image_collection/image_retrieval/3710502837807538491" alt="Civil engineer using surveyor equipment" class="w-full h-full object-cover transition duration-500 hover:scale-105">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 8. Growth Timeline -->
+        <section id="growth" class="py-24 industrial-bg">
+            <div class="max-w-7xl mx-auto px-6 sm:px-8 lg:px-10 content-z">
+                <h2 class="font-teko section-title animate-in" data-delay="0.1">OUR GROWTH</h2>
+                <div class="timeline-layout relative pt-12 animate-in" data-delay="0.3">
+                    <!-- Timeline Line -->
+                    <div class="absolute top-16 left-0 right-0 h-1 bg-slate-600"></div>
+                    
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-8 w-full text-center">
+                        <!-- Item 1 -->
+                        <div class="relative pt-12">
+                            <div class="absolute top-0 left-1/2 transform -translate-x-1/2 w-11 h-11 bg-slate-900 border-4 border-amber-500 rounded-full flex items-center justify-center font-bold text-white text-xl">2010</div>
+                            <h3 class="text-2xl font-teko text-white mt-4">FOUNDATION</h3>
+                            <p class="text-sm mt-2 text-slate-400">Established as a small scaffolding consultancy firm.</p>
+                        </div>
+                        <!-- Item 2 -->
+                        <div class="relative pt-12">
+                            <div class="absolute top-0 left-1/2 transform -translate-x-1/2 w-11 h-11 bg-slate-900 border-4 border-amber-500 rounded-full flex items-center justify-center font-bold text-white text-xl">2015</div>
+                            <h3 class="text-2xl font-teko text-white mt-4">EXPANSION</h3>
+                            <p class="text-sm mt-2 text-slate-400">Acquired heavy machinery fleet and expanded to civil works.</p>
+                        </div>
+                        <!-- Item 3 -->
+                        <div class="relative pt-12">
+                            <div class="absolute top-0 left-1/2 transform -translate-x-1/2 w-11 h-11 bg-slate-900 border-4 border-amber-500 rounded-full flex items-center justify-center font-bold text-white text-xl">2020</div>
+                            <h3 class="text-2xl font-teko text-white mt-4">INNOVATION</h3>
+                            <p class="text-sm mt-2 text-slate-400">Adopted BIM and drone technology for all major projects.</p>
+                        </div>
+                        <!-- Item 4 -->
+                        <div class="relative pt-12">
+                            <div class="absolute top-0 left-1/2 transform -translate-x-1/2 w-11 h-11 bg-slate-900 border-4 border-amber-500 rounded-full flex items-center justify-center font-bold text-white text-xl">2024</div>
+                            <h3 class="text-2xl font-teko text-white mt-4">LEADERSHIP</h3>
+                            <p class="text-sm mt-2 text-slate-400">Recognized as a top-tier national infrastructure partner.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 9. Sector Distribution (Bar Chart Animation) -->
+        <section id="distribution" class="py-24 bg-slate-900">
+            <div class="max-w-7xl mx-auto px-6 sm:px-8 lg:px-10">
+                <h2 class="font-teko section-title animate-in" data-delay="0.1">SECTOR DISTRIBUTION</h2>
+                <div class="grid md:grid-cols-2 gap-12 items-center">
+                    <div class="animate-in" data-delay="0.3">
+                        <h3 class="text-3xl font-teko text-white mb-4">DIVERSE PORTFOLIO</h3>
+                        <p class="text-lg">Our strategic diversification allows us to remain resilient and provide specialized expertise across various sectors of the construction industry, minimizing risk and maximizing growth.</p>
+                    </div>
+                    <div class="space-y-6 animate-in bar-chart-group" data-delay="0.5">
+                        <!-- Bar 1 -->
+                        <div class="flex items-center gap-4">
+                            <div class="w-24 text-right font-bold text-slate-300">Industrial</div>
+                            <div class="flex-grow bg-slate-800 h-10 relative bar-container">
+                                <div class="bar-fill" data-percent="85" data-label="85 Projects"></div>
+                            </div>
+                        </div>
+                        <!-- Bar 2 -->
+                        <div class="flex items-center gap-4">
+                            <div class="w-24 text-right font-bold text-slate-300">Commercial</div>
+                            <div class="flex-grow bg-slate-800 h-10 relative bar-container">
+                                <div class="bar-fill" data-percent="60" data-label="60 Projects"></div>
+                            </div>
+                        </div>
+                        <!-- Bar 3 -->
+                        <div class="flex items-center gap-4">
+                            <div class="w-24 text-right font-bold text-slate-300">Residential</div>
+                            <div class="flex-grow bg-slate-800 h-10 relative bar-container">
+                                <div class="bar-fill" data-percent="45" data-label="45 Projects"></div>
+                            </div>
+                        </div>
+                        <!-- Bar 4 -->
+                        <div class="flex items-center gap-4">
+                            <div class="w-24 text-right font-bold text-slate-300">Infrastructure</div>
+                            <div class="flex-grow bg-slate-800 h-10 relative bar-container">
+                                <div class="bar-fill" data-percent="30" data-label="30 Projects"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 10. Testimonial -->
+        <section id="testimonial" class="py-24 industrial-bg text-center">
+            <div class="max-w-4xl mx-auto px-6 sm:px-8 lg:px-10 content-z animate-in" data-delay="0.1">
+                <i class="fa-solid fa-quote-left text-amber-500 text-5xl mb-6"></i>
+                <h3 class="text-4xl sm:text-5xl font-light text-white leading-tight mb-8">
+                    "Their ability to deliver complex structures on tight deadlines without compromising safety is unmatched in the region."
+                </h3>
+                <p class="text-xl text-slate-400">
+                    — <strong>Director of Operations</strong>, MegaCorp Industries
+                </p>
+            </div>
+        </section>
+        
+        <!-- 11. Client Logo Slider (NEW SECTION) -->
+        <section id="clients" class="py-16 bg-slate-900">
+            <div class="max-w-7xl mx-auto px-6 sm:px-8 lg:px-10">
+                <h2 class="font-teko section-title text-center mx-auto" style="border-left: 0; padding-left: 0;">OUR TRUSTED CLIENTS</h2>
+            </div>
+            
+            <div class="logo-slide-container my-10 border-y border-amber-500/30 shadow-inner bg-slate-800/50">
+                <div class="logo-slide-track">
+                    
+                    <!-- Repeat the entire set of logos twice to ensure continuous scrolling -->
+                    <!-- SET 1 -->
+                    <div class="logo-item"><img class="logo-img" src="https://placehold.co/150x50/334155/ffffff?text=TechCorp" alt="Client Logo 1"></div>
+                    <div class="logo-item"><img class="logo-img" src="https://placehold.co/150x50/334155/ffffff?text=Global+Logistics" alt="Client Logo 2"></div>
+                    <div class="logo-item"><img class="logo-img" src="https://placehold.co/150x50/334155/ffffff?text=City+Power" alt="Client Logo 3"></div>
+                    <div class="logo-item"><img class="logo-img" src="https://placehold.co/150x50/334155/ffffff?text=Apex+Farms" alt="Client Logo 4"></div>
+                    <div class="logo-item"><img class="logo-img" src="https://placehold.co/150x50/334155/ffffff?text=Regal+Hotels" alt="Client Logo 5"></div>
+                    <div class="logo-item"><img class="logo-img" src="https://placehold.co/150x50/334155/ffffff?text=Innovate+Group" alt="Client Logo 6"></div>
+
+                    <!-- SET 2 (Duplicate for seamless loop) -->
+                    <div class="logo-item"><img class="logo-img" src="https://placehold.co/150x50/334155/ffffff?text=TechCorp" alt="Client Logo 7"></div>
+                    <div class="logo-item"><img class="logo-img" src="https://placehold.co/150x50/334155/ffffff?text=Global+Logistics" alt="Client Logo 8"></div>
+                    <div class="logo-item"><img class="logo-img" src="https://placehold.co/150x50/334155/ffffff?text=City+Power" alt="Client Logo 9"></div>
+                    <div class="logo-item"><img class="logo-img" src="https://placehold.co/150x50/334155/ffffff?text=Apex+Farms" alt="Client Logo 10"></div>
+                    <div class="logo-item"><img class="logo-img" src="https://placehold.co/150x50/334155/ffffff?text=Regal+Hotels" alt="Client Logo 11"></div>
+                    <div class="logo-item"><img class="logo-img" src="https://placehold.co/150x50/334155/ffffff?text=Innovate+Group" alt="Client Logo 12"></div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- 12. Contact -->
+        <section id="contact" class="py-24 industrial-bg text-center">
+            <div class="max-w-7xl mx-auto px-6 sm:px-8 lg:px-10 content-z">
+                <h2 class="font-teko text-5xl text-white mb-4 animate-in" data-delay="0.1">LET'S BUILD TOGETHER</h2>
+                <p class="text-xl max-w-xl mx-auto mb-10 animate-in" data-delay="0.3">
+                    Ready to start your next project? Contact our engineering team for a consultation.
+                </p>
+                
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+                    <!-- Contact Card 1: Phone -->
+                    <div class="bg-slate-800 p-6 rounded-lg shadow-xl border border-amber-500/30 hover:border-amber-500 transition duration-300 animate-in" data-delay="0.5">
+                        <i class="fa-solid fa-phone text-amber-500 text-3xl mb-3"></i>
+                        <p class="text-lg text-white font-teko">Call Us</p>
+                        <a href="tel:+6568994072" class="text-xl text-slate-300 hover:text-amber-500 transition">+65 6899 4072</a>
+                    </div>
+                    <!-- Contact Card 2: Email -->
+                    <div class="bg-slate-800 p-6 rounded-lg shadow-xl border border-amber-500/30 hover:border-amber-500 transition duration-300 animate-in" data-delay="0.7">
+                        <i class="fa-solid fa-envelope text-amber-500 text-3xl mb-3"></i>
+                        <p class="text-lg text-white font-teko">Email</p>
+                        <a href="mailto:projects@construction.com" class="text-xl text-slate-300 hover:text-amber-500 transition">projects@construction.com</a>
+                    </div>
+                    <!-- Contact Card 3: Web -->
+                    <div class="bg-slate-800 p-6 rounded-lg shadow-xl border border-amber-500/30 hover:border-amber-500 transition duration-300 animate-in" data-delay="0.9">
+                        <i class="fa-solid fa-globe text-amber-500 text-3xl mb-3"></i>
+                        <p class="text-lg text-white font-teko">Web</p>
+                        <a href="#" class="text-xl text-slate-300 hover:text-amber-500 transition">www.construction.com</a>
+                    </div>
+                </div>
+
+                <!-- Simple Contact Form (Optional addition for a website) -->
+                <div class="mt-16 max-w-2xl mx-auto p-8 bg-slate-800 rounded-xl shadow-2xl border border-slate-700 text-left animate-in" data-delay="1.1">
+                    <h3 class="text-2xl font-teko text-amber-500 mb-6">Send Us a Quick Message</h3>
+                    <form>
+                        <div class="mb-4">
+                            <input type="text" placeholder="Your Name" class="w-full p-3 bg-slate-900 border border-slate-700 text-white rounded-lg focus:border-amber-500" required>
+                        </div>
+                        <div class="mb-4">
+                            <input type="email" placeholder="Your Email" class="w-full p-3 bg-slate-900 border border-slate-700 text-white rounded-lg focus:border-amber-500" required>
+                        </div>
+                        <div class="mb-6">
+                            <textarea placeholder="Project Scope or Message" rows="4" class="w-full p-3 bg-slate-900 border border-slate-700 text-white rounded-lg focus:border-amber-500" required></textarea>
+                        </div>
+                        <button type="submit" class="w-full px-8 py-3 bg-amber-500 text-slate-900 font-teko text-xl rounded-lg hover:bg-amber-600 transition transform hover:scale-[1.01]">
+                            Submit Inquiry
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 py-8 border-t-4 border-amber-500">
+        <div class="max-w-7xl mx-auto px-6 sm:px-8 lg:px-10 text-center text-slate-400">
+            <p class="text-lg font-teko text-white mb-2">PRO-BUILD ENGINEERING</p>
+            <p class="text-sm">Safety | Precision | Excellence</p>
+            <p class="text-xs mt-4">© 2025 All rights reserved. Designed and Built for the Future.</p>
+        </div>
+    </footer>
+    
+    <!-- JavaScript for Scroll Animations, Counters, and Bar Charts -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            
+            // --- 1. Scroll Reveal Animation Logic ---
+            const animateElements = document.querySelectorAll('.animate-in');
+            
+            const observerOptions = {
+                root: null,
+                rootMargin: '0px',
+                threshold: 0.1 // Trigger when 10% of the element is visible
+            };
+
+            const scrollObserver = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const delay = parseFloat(entry.target.getAttribute('data-delay') || 0);
+                        // Apply animation after the specified delay
+                        setTimeout(() => {
+                            entry.target.classList.add('visible');
+                        }, delay * 1000); 
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, observerOptions);
+
+            animateElements.forEach(el => {
+                scrollObserver.observe(el);
+            });
+
+            // --- 2. Counter Animation Logic for Stats Section (#safety) ---
+            const counterElements = document.querySelectorAll('.counter');
+            let counterAnimated = false;
+
+            const counterObserver = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting && !counterAnimated) {
+                        counterAnimated = true;
+                        animateCounters(counterElements);
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, {
+                root: null,
+                rootMargin: '0px',
+                threshold: 0.8 // Only start when element is mostly visible
+            });
+
+            // Only observe the first counter element, as they are close together
+            if (counterElements.length > 0) {
+                counterObserver.observe(counterElements[0]);
+            }
+
+            function animateCounters(counters) {
+                counters.forEach(counter => {
+                    const target = parseInt(counter.getAttribute('data-target'));
+                    const speed = parseInt(counter.getAttribute('data-speed') || 1500);
+                    const suffix = counter.getAttribute('data-suffix') || '';
+                    const start = 0;
+                    const duration = speed;
+                    
+                    let startTime = null;
+
+                    function step(timestamp) {
+                        if (!startTime) startTime = timestamp;
+                        const progress = timestamp - startTime;
+                        const percentage = Math.min(progress / duration, 1);
+                        const value = Math.floor(percentage * target);
+
+                        // Format large numbers with commas if needed, but for simplicity we use simple toLocaleString
+                        counter.textContent = value.toLocaleString() + suffix;
+
+                        if (percentage < 1) {
+                            window.requestAnimationFrame(step);
+                        } else {
+                            counter.textContent = target.toLocaleString() + suffix;
+                        }
+                    }
+                    window.requestAnimationFrame(step);
+                });
+            }
+
+            // --- 3. Bar Chart Animation Logic for Distribution Section (#distribution) ---
+            const barChartGroup = document.querySelector('.bar-chart-group');
+            if (barChartGroup) {
+                const barObserver = new IntersectionObserver((entries, observer) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            animateBarCharts(entry.target.querySelectorAll('.bar-fill'));
+                            observer.unobserve(entry.target);
+                        }
+                    });
+                }, {
+                    root: null,
+                    rootMargin: '0px',
+                    threshold: 0.5 
+                });
+                barObserver.observe(barChartGroup);
+            }
+
+            function animateBarCharts(bars) {
+                bars.forEach(bar => {
+                    const percent = bar.getAttribute('data-percent');
+                    const label = bar.getAttribute('data-label');
+                    
+                    // Set the final width and class to trigger the CSS transition
+                    bar.style.width = percent + '%';
+                    bar.textContent = label;
+                    bar.classList.add('fill-active');
+                });
+            }
+
+        });
+    </script>
+</body>
+</html>
